@@ -1,0 +1,2254 @@
+<style>
+  :root {
+    --navy: #0A1628;
+    --blue: #1E3A5F;
+    --teal: #0D9488;
+    --teal-light: #14B8A6;
+    --gold: #F59E0B;
+    --gold-light: #FCD34D;
+    --white: #FFFFFF;
+    --offwhite: #F8FAFC;
+    --gray: #94A3B8;
+    --dark-gray: #334155;
+    --card-bg: #F1F5F9;
+    --accent: #06B6D4;
+    --red: #EF4444;
+    --green: #10B981;
+    --purple: #8B5CF6;
+    --slide-w: 1280px;
+    --slide-h: 720px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0d1117;
+    font-family: 'Space Grotesk', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 24px 16px 80px;
+    gap: 20px;
+  }
+
+  /* ── NAV ── */
+  #nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(10,22,40,0.97);
+    border-top:1px solid rgba(13,148,136,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 13.0px 20px;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+  }
+  #nav button {
+    background: var(--teal);
+    border: none;
+    color: white;
+    width: 38px; height: 38px;
+    border-radius:12px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all .2s;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  #nav button:hover { background: var(--teal-light); transform: scale(1.08); }
+  #nav button:disabled { background: #1e3a5f; color: #475569; cursor: default; transform: none; }
+  #slide-counter {
+    color: var(--gray);
+    font-size: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    min-width: 64px;
+    text-align: center;
+  }
+  .dot-nav { display: flex; gap: 12px; align-items: center; }
+  .dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: #334155;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .dot.active { background: var(--teal); transform: scale(1.4); }
+
+  /* ── SLIDES ── */
+  .slide-wrapper {
+    display: none;
+    width: 100%;
+    max-width: var(--slide-w);
+  }
+  .slide-wrapper.active { display: block; }
+
+  .slide {
+    width: 100%;
+    aspect-ratio: 16/9;
+    position: relative;
+    overflow: hidden;
+    border-radius:12px;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  /* ── SLIDE LABEL ── */
+
+  /* ══════════════════════════════════
+     SLIDE 1 — COVER
+  ══════════════════════════════════ */
+  #s1 {
+    background: var(--navy);
+  }
+  #s1 .left-bar {
+    position: absolute; left:0; top:0; width: 1.8%; height:100%;
+    background: var(--teal);
+  }
+  #s1 .top-stripe {
+    position: absolute; left:1.8%; top:0; right:0; height:.6%;
+    background: var(--gold);
+  }
+  #s1 .content {
+    position: absolute; left:5%; top:8%; right:4%;
+  }
+  #s1 .main-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 64px;
+    font-weight: 800;
+    color: white;
+    letter-spacing: -.02em;
+    line-height: 1;
+  }
+  #s1 .sub-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--teal-light);
+    letter-spacing: .12em;
+    margin-top: 1%;
+  }
+  #s1 .gold-line {
+    width: 52%;
+    height: 12px;
+    background: var(--gold);
+    margin-top: 3%;
+    border-radius:12px;
+  }
+  #s1 .tagline {
+    color: var(--gray);
+    font-size: 18px;
+    margin-top: 1.5%;
+    font-style: italic;
+  }
+  #s1 .plan-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1% 4%;
+    margin-top: 3%;
+    max-width: 75%;
+  }
+  #s1 .plan-item {
+    color: var(--offwhite);
+    font-size: 18px;
+    padding: 1% 0;
+    border-left:3px solid var(--teal);
+    padding-left: 3%;
+  }
+  #s1 .coin-icon {
+    position: absolute;
+    right: 3%;
+    top: 50%;
+    transform: translateY(-52%);
+    width: 22%;
+    aspect-ratio: 1;
+  }
+  #s1 .coin-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+  #s1 .footer-bar {
+    position: absolute;
+    bottom:0; left:0; right:0;
+    height: 7%;
+    background: var(--blue);
+    display: flex; align-items: center;
+    padding: 0 5%;
+    color: var(--gray);
+    font-size: 14px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ══════════════════════════════════
+     SHARED HEADER
+  ══════════════════════════════════ */
+  .slide-header {
+    position: absolute; top:0; left:0; right:0;
+    height: 13%;
+    background: var(--navy);
+    display: flex; align-items: center;
+    padding: 0 4%;
+  }
+  .slide-header h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: white;
+    letter-spacing: .03em;
+  }
+  .header-accent {
+    position: absolute; bottom:0; left:0; right:0;
+    height: 3px;
+  }
+  .header-icon {
+    position: absolute;
+    right: 3%; top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+  }
+  .slide-body {
+    position: absolute;
+    top: 16%; left: 3%; right: 3%; bottom: 1.5%;
+  }
+
+  /* ══════════════════════════════════
+     SLIDE 2 — DÉFINITION
+  ══════════════════════════════════ */
+  #s2 { background: var(--offwhite); }
+  #s2 .def-box {
+    background: var(--blue);
+    color: white;
+    border-radius:12px;
+    padding: 2.5% 3%;
+    font-size: 17px;
+    font-style: italic;
+    line-height: 1.5;
+    margin-bottom: 2%;
+  }
+  #s2 .types-grid {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 1.5%;
+    margin-bottom: 2%;
+  }
+  #s2 .type-card {
+    border-radius:12px;
+    padding: 4% 4% 3%;
+    display: flex; flex-direction: column;
+    box-shadow: 0 12px 16px rgba(0,0,0,.12);
+  }
+  #s2 .type-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--gold);
+    margin-bottom: 4%;
+  }
+  #s2 .type-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 4%;
+  }
+  #s2 .type-sub {
+    font-size: 15px;
+    color: rgba(255,255,255,.7);
+    line-height: 1.4;
+  }
+  #s2 .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 1.5%;
+    background: var(--card-bg);
+    border:1px solid #CBD5E1;
+    border-radius:12px;
+    padding: 2% 2%;
+  }
+  #s2 .stat-item { text-align: center; }
+  #s2 .stat-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--teal);
+  }
+  #s2 .stat-label {
+    font-size: 15px;
+    color: var(--dark-gray);
+    margin-top: 2%;
+  }
+
+  /* ══════════════════════════════════
+     SLIDE 3 — MÉCANISMES
+  ══════════════════════════════════ */
+  #s3 { background: var(--offwhite); }
+  #s3 .meca-layout {
+    display: grid;
+    grid-template-columns: 60% 38%;
+    gap: 2%;
+    height: 100%;
+  }
+  #s3 .flow-section {}
+  #s3 .flow-section {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  #s3 .flow-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 3%;
+  }
+  #s3 .flow-steps {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    margin-bottom: 3%;
+    flex-wrap: nowrap;
+    width: 100%;
+  }
+  #s3 .flow-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    text-align: center;
+  }
+  #s3 .step-circle {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: white;
+    flex-shrink: 0;
+  }
+  #s3 .step-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-top: 5%;
+  }
+  #s3 .step-desc {
+    font-size: 14px;
+    color: var(--dark-gray);
+    margin-top: 3%;
+    line-height: 1.3;
+  }
+  #s3 .step-arrow {
+    font-size: 18px;
+    color: var(--gold);
+    margin-top: 16px;
+    flex-shrink: 0;
+  }
+  #s3 .arbitrage-box {
+    background: var(--navy);
+    border-radius:12px;
+    padding: 3.5% 4%;
+    color: white;
+    margin-top: auto;
+    flex-shrink: 0;
+  }
+  #s3 .arb-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 4%;
+    text-align: center;
+    letter-spacing: .08em;
+  }
+  #s3 .arb-row {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--offwhite);
+  }
+  #s3 .arb-label { font-weight: 700; }
+  #s3 .right-blocks {
+    display: flex;
+    flex-direction: column;
+    gap: 2%;
+    height: 100%;
+  }
+  #s3 .mec-block {
+    border-radius:12px;
+    padding: 3% 4%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  #s3 .mec-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 3%;
+    text-align: center;
+  }
+  #s3 .mec-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,.75);
+    text-align: center;
+  }
+
+  /* ══════════════════════════════════
+     SLIDE 4 — MICA
+  ══════════════════════════════════ */
+  #s4 { background: var(--offwhite); }
+  #s4 .mica-layout {
+    display: grid;
+    grid-template-columns: 60% 38%;
+    gap: 2%;
+    height: 100%;
+  }
+  #s4 .mica-header-box {
+    background: var(--blue);
+    border-radius:12px;
+    padding: 2.5% 3%;
+    margin-bottom: 2%;
+    text-align: center;
+  }
+  #s4 .mica-h-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--gold);
+  }
+  #s4 .mica-h-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,.8);
+    font-style: italic;
+    margin-top: 1%;
+  }
+  #s4 .cats-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2%;
+    margin-bottom: 2%;
+  }
+  #s4 .cat-card {
+    border-radius:12px;
+    padding: 4% 4%;
+    box-shadow: 0 12px 12px rgba(0,0,0,.15);
+    text-align: center;
+  }
+  #s4 .cat-big {
+    font-family: 'Syne', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    color: white;
+    line-height: 1;
+  }
+  #s4 .cat-full {
+    font-size: 14px;
+    color: rgba(255,255,255,.8);
+    font-style: italic;
+    margin: 2% 0;
+  }
+  #s4 .cat-desc {
+    font-size: 14px;
+    color: rgba(255,255,255,.75);
+    line-height: 1.4;
+  }
+  #s4 .rules-box {
+    background: var(--card-bg);
+    border:1px solid #CBD5E1;
+    border-radius:12px;
+    padding: 2.5% 3%;
+  }
+  #s4 .rules-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 2%;
+  }
+  #s4 .rule-item {
+    font-size: 14px;
+    color: var(--dark-gray);
+    padding: 1.5% 0;
+    border-bottom:1px solid #E2E8F0;
+    display: flex; align-items: flex-start; gap: 12px;
+  }
+  #s4 .rule-item:last-child { border-bottom: none; }
+  #s4 .rule-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--teal);
+    margin-top: 12px;
+    flex-shrink: 0;
+  }
+  #s4 .supervisors {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2%;
+    margin-top: 2%;
+  }
+  #s4 .sup-box {
+    border-radius:12px;
+    padding: 2%;
+    text-align: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+  }
+  /* timeline */
+  #s4 .timeline-box {
+    background: var(--navy);
+    border-radius:12px;
+    padding: 4%;
+    height: 100%;
+    display: flex; flex-direction: column;
+  }
+  #s4 .tl-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--gold);
+    text-align: center;
+    letter-spacing: .06em;
+    margin-bottom: 4%;
+  }
+  #s4 .tl-item {
+    display: flex;
+    gap: 5%;
+    margin-bottom: 4%;
+    position: relative;
+  }
+  #s4 .tl-item:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 12px;
+    top: 18px;
+    width: 2px;
+    height: calc(100% + 16px);
+    background: rgba(13,148,136,.3);
+  }
+  #s4 .tl-dot {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--teal);
+    flex-shrink: 0;
+    margin-top: 12px;
+    position: relative;
+    z-index: 1;
+  }
+  #s4 .tl-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gold);
+    margin-bottom: 2%;
+  }
+  #s4 .tl-event {
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.3;
+  }
+
+  /* ══════════════════════════════════
+     SLIDE 5 — RÔLE BANQUES
+  ══════════════════════════════════ */
+  #s5 { background: var(--offwhite); }
+  #s5 .use-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-template-rows: 1fr 1fr;
+    gap: 1.5%;
+    height: 86%;
+    min-height: 0;
+  }
+  #s5 .use-card {
+    border-radius:12px;
+    padding: 4% 4%;
+    box-shadow: 0 12px 14px rgba(0,0,0,.15);
+    display: flex; flex-direction: column;
+  }
+  #s5 .use-top {
+    display: flex; align-items: center; gap: 4%;
+    margin-bottom: 4%;
+  }
+  #s5 .use-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  #s5 .use-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: white;
+    line-height: 1.2;
+  }
+  #s5 .use-desc {
+    font-size: 14px;
+    color: rgba(255,255,255,.75);
+    line-height: 1.5;
+    flex: 1;
+  }
+  #s5 .bottom-note {
+    background: var(--card-bg);
+    border:1px solid #CBD5E1;
+    border-radius:12px;
+    padding: 1.5% 2%;
+    font-size: 14px;
+    color: var(--dark-gray);
+    font-style: italic;
+    text-align: center;
+    margin-top: 1.5%;
+  }
+
+  /* ══════════════════════════════════
+     SLIDE 6 — 5 BANQUES
+  ══════════════════════════════════ */
+  #s6 { background: var(--offwhite); }
+  #s6 .banks-grid {
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    gap: 1.5%;
+    height: 100%;
+    min-height: 0;
+  }
+  #s6 .bank-col {
+    border-radius:12px;
+    padding: 0 0 3%;
+    box-shadow: 0 12px 16px rgba(0,0,0,.15);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  #s6 .bank-tag {
+    padding: 2.5% 3%;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+  }
+  #s6 .bank-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    color: white;
+    text-align: center;
+    padding: 4% 4% 2%;
+    line-height: 1.2;
+  }
+  #s6 .bank-status {
+    font-size: 13px;
+    color: var(--gold);
+    text-align: center;
+    font-style: italic;
+    padding: 0 4% 2%;
+  }
+  #s6 .bank-product {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--teal-light);
+    text-align: center;
+    padding: 0 4% 3%;
+    line-height: 1.3;
+  }
+  #s6 .bank-detail {
+    font-size: 14px;
+    color: var(--gray);
+    text-align: center;
+    padding: 0 5%;
+    line-height: 1.5;
+    flex: 1;
+  }
+  #s6 .mat-section {
+    padding: 4% 8% 0;
+  }
+  #s6 .mat-label {
+    font-size: 14px;
+    color: var(--gray);
+    text-align: center;
+    margin-bottom: 3%;
+  }
+  #s6 .mat-track {
+    height: 12px;
+    background: #1E293B;
+    border-radius:12px;
+    overflow: hidden;
+    margin-bottom: 3%;
+  }
+  #s6 .mat-fill {
+    height: 100%;
+    border-radius:12px;
+    transition: width 1s ease;
+  }
+  #s6 .mat-pct {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+  }
+
+  /* ══════════════════════════════════
+     SLIDE 7 — BCE
+  ══════════════════════════════════ */
+  #s7 { background: var(--offwhite); }
+  #s7 .quote-box {
+    background: var(--blue);
+    border-left:3px solid var(--gold);
+    border-radius:12px;
+    padding: 2.5% 3%;
+    margin-bottom: 2%;
+    position: relative;
+  }
+  #s7 .quote-text {
+    font-size: 15px;
+    color: white;
+    font-style: italic;
+    line-height: 1.5;
+  }
+  #s7 .quote-src {
+    font-size: 13px;
+    color: var(--gold);
+    text-align: right;
+    margin-top: 1%;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  #s7 .axes-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 2%;
+    margin-bottom: 2%;
+  }
+  #s7 .axis-card {
+    border-radius:12px;
+    overflow: hidden;
+    box-shadow: 0 12px 14px rgba(0,0,0,.12);
+  }
+  #s7 .axis-header {
+    padding: 3% 4%;
+    display: flex; align-items: center; gap: 4%;
+  }
+  #s7 .axis-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: white;
+  }
+  #s7 .axis-htitle {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+    line-height: 1.2;
+  }
+  #s7 .axis-body {
+    background: var(--card-bg);
+    padding: 3% 4%;
+    height: 62%;
+  }
+  #s7 .axis-text {
+    font-size: 14px;
+    color: var(--dark-gray);
+    line-height: 1.6;
+  }
+  #s7 .bce-footer {
+    background: var(--navy);
+    border-radius:12px;
+    padding: 1.5% 3%;
+    font-size: 14px;
+    color: var(--gray);
+    font-style: italic;
+    text-align: center;
+  }
+
+  /* ══════════════════════════════════
+     SLIDE 8 — RISQUES
+  ══════════════════════════════════ */
+  #s8 { background: var(--offwhite); }
+  #s8 .risk-layout {
+    display: grid;
+    grid-template-columns: 57% 41%;
+    gap: 2%;
+    height: 100%;
+  }
+  #s8 .risk-item {
+    border-radius:12px;
+    padding: 2.5% 3%;
+    margin-bottom: 1.5%;
+    box-shadow: 0 12px 13.0px rgba(0,0,0,.1);
+  }
+  #s8 .risk-top {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 1.5%;
+  }
+  #s8 .risk-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: white;
+  }
+  #s8 .risk-badge {
+    padding: 1% 3%;
+    border-radius:12px;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: 'Syne', sans-serif;
+    color: white;
+    white-space: nowrap;
+  }
+  #s8 .risk-desc {
+    font-size: 14px;
+    color: rgba(255,255,255,.75);
+    line-height: 1.4;
+  }
+  #s8 .adv-header {
+    background: var(--green);
+    border-radius:12px 12px 0 0;
+    padding: 3% 4%;
+    text-align: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1.5%;
+  }
+  #s8 .adv-item {
+    background: var(--card-bg);
+    border:1px solid #E2E8F0;
+    border-radius:12px;
+    padding: 2.5% 3%;
+    display: flex; align-items: center; gap: 3%;
+    margin-bottom: 1.5%;
+    font-size: 14px;
+    color: var(--dark-gray);
+  }
+  #s8 .adv-check {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--green);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13.0px;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  /* ══════════════════════════════════
+     SLIDE 9 — FRANCE VS USA
+  ══════════════════════════════════ */
+  #s9 { background: var(--offwhite); }
+  #s9 .compare-grid {
+    display: grid;
+    grid-template-columns: 24% 37% 37%;
+    gap: 1%;
+    height: 94%;
+  }
+  #s9 .col-header {
+    border-radius:12px;
+    padding: 2.5% 3%;
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.5%;
+  }
+  #s9 .compare-row {
+    display: contents;
+  }
+  #s9 .row-label {
+    background: var(--dark-gray);
+    color: white;
+    border-radius:12px;
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 2%;
+    margin-bottom: 1%;
+  }
+  #s9 .row-cell {
+    border-radius:12px;
+    padding: 2.5% 3%;
+    font-size: 14px;
+    color: white;
+    line-height: 1.5;
+    display: flex; align-items: center;
+    margin-bottom: 1%;
+  }
+  #s9 .bottom-insight {
+    background: var(--navy);
+    border-radius:12px;
+    padding: 1.5% 2.5%;
+    font-size: 14px;
+    color: var(--gold);
+    font-style: italic;
+    text-align: center;
+    grid-column: 1/-1;
+  }
+
+  /* ══════════════════════════════════
+     SLIDE 10 — ENJEUX
+  ══════════════════════════════════ */
+  #s10 { background: var(--offwhite); }
+  #s10 .enjeux-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2%;
+    height: 90%;
+    margin-bottom: 1.5%;
+  }
+  #s10 .side-header {
+    border-radius:12px;
+    padding: 2.5% 4%;
+    text-align: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 2%;
+  }
+  #s10 .enjeu-item {
+    border-radius:12px;
+    padding: 3% 4%;
+    margin-bottom: 2%;
+    box-shadow: 0 12px 13.0px rgba(0,0,0,.1);
+  }
+  #s10 .enjeu-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 2%;
+  }
+  #s10 .enjeu-desc {
+    font-size: 14px;
+    color: rgba(255,255,255,.75);
+    line-height: 1.5;
+  }
+  #s10 .verdict-bar {
+    background: var(--gold);
+    border-radius:12px;
+    padding: 1.8% 3%;
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--navy);
+    text-align: center;
+  }
+
+  /* ══════════════════════════════════
+     SLIDE 11 — CONCLUSION
+  ══════════════════════════════════ */
+  #s11 {
+    background: var(--navy);
+  }
+  #s11 .left-bar {
+    position: absolute; left:0; top:0; width: 1.8%; height:100%;
+    background: var(--teal);
+  }
+  #s11 .gold-bottom {
+    position: absolute; bottom: 0; left:1.8%; right:0; height:.6%;
+    background: var(--gold);
+  }
+  #s11 .content {
+    position: absolute; left:5%; top:5%; right:4%; bottom:3%;
+  }
+  #s11 .concl-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 42px;
+    font-weight: 800;
+    color: white;
+    letter-spacing: -.02em;
+    line-height: 1;
+    margin-bottom: 1%;
+  }
+  #s11 .concl-sub {
+    font-size: 15px;
+    color: var(--teal-light);
+    font-style: italic;
+    margin-bottom: 3%;
+  }
+  #s11 .concl-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5%;
+  }
+  #s11 .concl-item {
+    background: rgba(15,23,42,.8);
+    border:1px solid rgba(30,41,59,.8);
+    border-radius:12px;
+    padding: 2.5% 3%;
+    font-size: 15px;
+    color: var(--offwhite);
+    border-left:3px solid;
+    line-height: 1.4;
+  }
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1 -->
+<div class="slide-wrapper active" id="sw1">
+  <div class="slide" id="s1">
+    <div class="left-bar"></div>
+    <div class="top-stripe"></div>
+    <div class="content">
+      <div class="main-title">LES STABLECOINS</div>
+      <div class="sub-title">& LES BANQUES FRANÇAISES</div>
+      <div class="gold-line"></div>
+      <div class="tagline">Enjeux, Mécanismes, Réglementation &amp; Positionnement Stratégique</div>
+      <div class="plan-grid">
+        <div class="plan-item">1. Définition du Stablecoin</div>
+        <div class="plan-item">8. Positionnement de la BCE</div>
+        <div class="plan-item">2. Mécanismes de la Parité</div>
+        <div class="plan-item">9. Banques Françaises &amp; 5 Groupes</div>
+        <div class="plan-item">3. Modèle Éco. &amp; Tokenisation</div>
+        <div class="plan-item">10. Stablecoins vs Paiements</div>
+        <div class="plan-item">4. Impact Géopolitique</div>
+        <div class="plan-item">11. Enjeux pour les Banques</div>
+        <div class="plan-item">5. Risques &amp; Avantages</div>
+        <div class="plan-item">12. Bank Run Numérique</div>
+        <div class="plan-item">6. Réglementation MiCA</div>
+        <div class="plan-item">13. France / UE vs États-Unis</div>
+        <div class="plan-item">7. Actualités 2026</div>
+        <div class="plan-item">14. Conclusion</div>
+      </div>
+    </div>
+    <div class="coin-icon">
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <!-- Bottom coin (darkest) -->
+        <ellipse cx="100" cy="168" rx="72" ry="22" fill="#92400E"/>
+        <rect x="28" y="148" width="144" height="20" fill="#B45309"/>
+        <ellipse cx="100" cy="148" rx="72" ry="22" fill="#F59E0B"/>
+        <ellipse cx="100" cy="148" rx="62" ry="17" fill="#FCD34D"/>
+        <ellipse cx="100" cy="148" rx="52" ry="13" fill="#FDE68A" opacity="0.5"/>
+
+        <!-- Middle coin -->
+        <ellipse cx="100" cy="122" rx="72" ry="22" fill="#92400E"/>
+        <rect x="28" y="102" width="144" height="20" fill="#B45309"/>
+        <ellipse cx="100" cy="102" rx="72" ry="22" fill="#F59E0B"/>
+        <ellipse cx="100" cy="102" rx="62" ry="17" fill="#FCD34D"/>
+        <ellipse cx="100" cy="102" rx="52" ry="13" fill="#FDE68A" opacity="0.5"/>
+
+        <!-- Top coin (brightest) -->
+        <ellipse cx="100" cy="76" rx="72" ry="22" fill="#92400E"/>
+        <rect x="28" y="56" width="144" height="20" fill="#B45309"/>
+        <ellipse cx="100" cy="56" rx="72" ry="22" fill="#F59E0B"/>
+        <ellipse cx="100" cy="56" rx="62" ry="17" fill="#FCD34D"/>
+        <ellipse cx="100" cy="56" rx="52" ry="13" fill="#FDE68A" opacity="0.6"/>
+        <!-- Shine on top coin -->
+        <ellipse cx="88" cy="50" rx="28" ry="7" fill="white" opacity="0.18"/>
+      </svg>
+    </div>
+    <div class="footer-bar">Master 2 Finance &nbsp;|&nbsp; Finance Digitale &nbsp;|&nbsp; 2026</div>
+  </div>
+</div>
+
+<!-- SLIDE 2 -->
+<div class="slide-wrapper" id="sw2">
+  <div class="slide" id="s2" style="background:var(--offwhite)">
+    <div class="slide-header" style="background:var(--navy)">
+      <h2>01 — DÉFINITION DU STABLECOIN</h2>
+      <div class="header-accent" style="background:var(--teal)"></div>
+      <span class="header-icon">🪙</span>
+    </div>
+    <div class="slide-body">
+      <div class="def-box">Un stablecoin est un cryptoactif dont l'objectif est de maintenir un prix (quasi) fixe, indexé sur un actif de référence — le plus souvent une monnaie fiduciaire (USD, EUR) — tout en conservant les propriétés de la blockchain : programmabilité, transfert 24/7, coût réduit.</div>
+      <div class="types-grid">
+        <div class="type-card" style="background:#1E3A5F">
+          <div class="type-num">1</div>
+          <div class="type-name">Fiat-Backed</div>
+          <div class="type-sub">Réserves en USD/EUR<br>USDT, USDC</div>
+        </div>
+        <div class="type-card" style="background:#065F46">
+          <div class="type-num">2</div>
+          <div class="type-name">Crypto-Backed</div>
+          <div class="type-sub">Sur-collatéralisé<br>DAI (ETH/wBTC)</div>
+        </div>
+        <div class="type-card" style="background:#78350F">
+          <div class="type-num">3</div>
+          <div class="type-name">Commodity-Backed</div>
+          <div class="type-sub">Adossé à l'or<br>DGX</div>
+        </div>
+        <div class="type-card" style="background:#7F1D1D">
+          <div class="type-num">4</div>
+          <div class="type-name">Algorithmique</div>
+          <div class="type-sub">Offre programmable<br>⚠️ TerraUSD (échec)</div>
+        </div>
+      </div>
+      <div class="stats-row">
+        <div class="stat-item"><div class="stat-val">~300 Md$</div><div class="stat-label">Capitalisation totale 2025</div></div>
+        <div class="stat-item"><div class="stat-val">&gt;33 000 Md$</div><div class="stat-label">Transactions annuelles 2025</div></div>
+        <div class="stat-item"><div class="stat-val">&gt;90%</div><div class="stat-label">Adossés au dollar USD</div></div>
+        <div class="stat-item"><div class="stat-val">×10</div><div class="stat-label">Croissance depuis 2020</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 3 -->
+<div class="slide-wrapper" id="sw3">
+  <div class="slide" style="background:#F8FAFC;position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:12px;box-shadow:0 32px 80px rgba(0,0,0,0.6)">
+    <!-- Header -->
+    <div style="position:absolute;top:0;left:0;right:0;height:13%;background:#0A1628;display:flex;align-items:center;padding:0 4%">
+      <h2 style="font-family:Syne,sans-serif;font-size:22px;font-weight:800;color:white;letter-spacing:.03em">02 — MÉCANISMES DE MAINTIEN DE LA PARITÉ</h2>
+      <div style="position:absolute;bottom:0;left:0;right:0;height:3px;background:#0D9488"></div>
+      <span style="position:absolute;right:3%;top:50%;transform:translateY(-50%);font-size:24px">⇄</span>
+    </div>
+    <!-- Body -->
+    <div style="position:absolute;top:16%;left:3%;right:3%;bottom:1.5%;display:grid;grid-template-columns:62% 36%;gap:2%">
+
+      <!-- LEFT: flow + arbitrage -->
+      <div style="display:flex;flex-direction:column;gap:3%">
+
+        <div style="font-family:Syne,sans-serif;font-size:16px;font-weight:700;color:#0A1628">Fonctionnement d'un Stablecoin Fiat-Backed</div>
+
+        <!-- Flow steps -->
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1%">
+
+          <div style="display:flex;flex-direction:column;align-items:center;flex:1;text-align:center;gap:4%">
+            <div style="width:42px;height:42px;border-radius:50%;background:#1E3A5F;display:flex;align-items:center;justify-content:center;font-family:Syne,sans-serif;font-size:18px;font-weight:800;color:white;flex-shrink:0">1</div>
+            <div style="font-family:Syne,sans-serif;font-size:15px;font-weight:700;color:#0A1628">Dépôt</div>
+            <div style="font-size:14px;color:#334155;line-height:1.655">Client dépose<br>100 €</div>
+          </div>
+
+          <div style="font-size:20px;color:#F59E0B;margin-top:15px;flex-shrink:0">→</div>
+
+          <div style="display:flex;flex-direction:column;align-items:center;flex:1;text-align:center;gap:4%">
+            <div style="width:42px;height:42px;border-radius:50%;background:#065F46;display:flex;align-items:center;justify-content:center;font-family:Syne,sans-serif;font-size:18px;font-weight:800;color:white;flex-shrink:0">2</div>
+            <div style="font-family:Syne,sans-serif;font-size:15px;font-weight:700;color:#0A1628">Réserve</div>
+            <div style="font-size:14px;color:#334155;line-height:1.655">Cash / T-Bills<br>sécurisés</div>
+          </div>
+
+          <div style="font-size:20px;color:#F59E0B;margin-top:15px;flex-shrink:0">→</div>
+
+          <div style="display:flex;flex-direction:column;align-items:center;flex:1;text-align:center;gap:4%">
+            <div style="width:42px;height:42px;border-radius:50%;background:#7C3AED;display:flex;align-items:center;justify-content:center;font-family:Syne,sans-serif;font-size:18px;font-weight:800;color:white;flex-shrink:0">3</div>
+            <div style="font-family:Syne,sans-serif;font-size:15px;font-weight:700;color:#0A1628">Émission</div>
+            <div style="font-size:14px;color:#334155;line-height:1.655">100 tokens<br>créés</div>
+          </div>
+
+          <div style="font-size:20px;color:#F59E0B;margin-top:15px;flex-shrink:0">→</div>
+
+          <div style="display:flex;flex-direction:column;align-items:center;flex:1;text-align:center;gap:4%">
+            <div style="width:42px;height:42px;border-radius:50%;background:#0369A1;display:flex;align-items:center;justify-content:center;font-family:Syne,sans-serif;font-size:18px;font-weight:800;color:white;flex-shrink:0">4</div>
+            <div style="font-family:Syne,sans-serif;font-size:15px;font-weight:700;color:#0A1628">Circulation</div>
+            <div style="font-size:14px;color:#334155;line-height:1.655">Paiements<br>24h/24</div>
+          </div>
+
+          <div style="font-size:20px;color:#F59E0B;margin-top:15px;flex-shrink:0">→</div>
+
+          <div style="display:flex;flex-direction:column;align-items:center;flex:1;text-align:center;gap:4%">
+            <div style="width:42px;height:42px;border-radius:50%;background:#0D9488;display:flex;align-items:center;justify-content:center;font-family:Syne,sans-serif;font-size:18px;font-weight:800;color:white;flex-shrink:0">5</div>
+            <div style="font-family:Syne,sans-serif;font-size:15px;font-weight:700;color:#0A1628">Rachat</div>
+            <div style="font-size:14px;color:#334155;line-height:1.655">Burn tokens<br>→ 100€ rendu</div>
+          </div>
+        </div>
+
+        <!-- Arbitrage box -->
+        <div style="background:#0A1628;border-radius:8px;padding:3.5% 4%;flex:1;display:flex;flex-direction:column;justify-content:center">
+          <div style="font-family:Syne,sans-serif;font-size:16px;font-weight:700;color:#F59E0B;margin-bottom:4%;text-align:center;letter-spacing:.08em">MÉCANISME D'ARBITRAGE</div>
+          <div style="font-size:15px;color:#F8FAFC;line-height:1.9">
+            <span style="font-weight:700;color:#14B8A6">Prix &gt; 1$ :</span> Émettre → Vendre → Offre ↑ → Prix ↓ vers 1$<br>
+            <span style="font-weight:700;color:#F59E0B">Prix &lt; 1$ :</span> Acheter bon marché → Rembourser → Offre ↓ → Prix ↑ vers 1$
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: 4 blocks -->
+      <div style="display:flex;flex-direction:column;gap:2.5%">
+
+        <div style="background:#0D9488;border-radius:8px;padding:3.5% 4%;flex:1;display:flex;flex-direction:column;justify-content:center">
+          <div style="font-family:Syne,sans-serif;font-size:16px;font-weight:700;color:white;margin-bottom:6%;text-align:center">Collatéral</div>
+          <div style="font-size:15px;color:rgba(255,255,255,.8);text-align:center">Fiat / Crypto / Or</div>
+        </div>
+
+        <div style="background:#1E3A5F;border-radius:8px;padding:3.5% 4%;flex:1;display:flex;flex-direction:column;justify-content:center">
+          <div style="font-family:Syne,sans-serif;font-size:16px;font-weight:700;color:white;margin-bottom:6%;text-align:center">Ajustement</div>
+          <div style="font-size:15px;color:rgba(255,255,255,.8);text-align:center">Arbitrage + Rachat</div>
+        </div>
+
+        <div style="background:#7C3AED;border-radius:8px;padding:3.5% 4%;flex:1;display:flex;flex-direction:column;justify-content:center">
+          <div style="font-family:Syne,sans-serif;font-size:16px;font-weight:700;color:white;margin-bottom:6%;text-align:center">Smart Contracts</div>
+          <div style="font-size:15px;color:rgba(255,255,255,.8);text-align:center">Émission / Burn auto</div>
+        </div>
+
+        <div style="background:#7F1D1D;border-radius:8px;padding:3.5% 4%;flex:1;display:flex;flex-direction:column;justify-content:center">
+          <div style="font-family:Syne,sans-serif;font-size:16px;font-weight:700;color:#F59E0B;margin-bottom:6%;text-align:center">⚠️ Algorithmique</div>
+          <div style="font-size:15px;color:rgba(255,255,255,.75);text-align:center">Fragile sans réserves<br>TerraUSD 2022 (-99%)</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4 -->
+<div class="slide-wrapper" id="sw4">
+  <div class="slide" style="background:#0A1628;position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:12px;box-shadow:0 32px 80px rgba(0,0,0,0.6);font-family:Space Grotesk,sans-serif">
+
+    <!-- Glows -->
+    <div style="position:absolute;top:-10%;left:-5%;width:40%;height:55%;background:radial-gradient(ellipse,rgba(13,148,136,.15) 0%,transparent 70%);pointer-events:none"></div>
+    <div style="position:absolute;bottom:-10%;right:-5%;width:40%;height:55%;background:radial-gradient(ellipse,rgba(139,92,246,.12) 0%,transparent 70%);pointer-events:none"></div>
+
+    <!-- HEADER -->
+    <div style="position:absolute;top:0;left:0;right:0;height:11%;display:flex;align-items:center;padding:0 3%;border-bottom:1px solid rgba(255,255,255,.07)">
+      <div style="width:4px;height:62%;background:linear-gradient(180deg,#F59E0B,#8B5CF6);border-radius:2px;margin-right:2%"></div>
+      <div style="font-family:Syne,sans-serif;font-size:24px;font-weight:800;color:white;letter-spacing:.02em">03 — MODÈLE ÉCONOMIQUE &amp; TOKENISATION</div>
+    </div>
+
+    <!-- BODY: 2 colonnes -->
+    <div style="position:absolute;top:13%;left:2%;right:2%;bottom:1.5%;display:grid;grid-template-columns:1fr 1fr;gap:2%">
+
+      <!-- ══ GAUCHE : MODÈLE ÉCONOMIQUE ══ -->
+      <div style="display:flex;flex-direction:column;gap:2%">
+
+        <div style="display:flex;align-items:center;gap:1.5%;margin-bottom:0.5%">
+          <div style="height:2px;width:18px;background:#F59E0B;border-radius:2px"></div>
+          <span style="font-family:Syne,sans-serif;font-size:13px;font-weight:700;color:#F59E0B;letter-spacing:.08em">COMMENT ILS GAGNENT DE L'ARGENT</span>
+        </div>
+
+        <!-- 3 étapes -->
+        <div style="background:rgba(30,58,95,.6);border:1px solid rgba(245,158,11,.2);border-radius:10px;padding:3.5% 4%;display:flex;flex-direction:column;gap:5%">
+          <div style="display:flex;align-items:center;gap:3%">
+            <div style="min-width:26px;height:26px;border-radius:50%;background:#0D9488;display:flex;align-items:center;justify-content:center;font-family:Syne,sans-serif;font-weight:800;color:white;font-size:14px;flex-shrink:0">1</div>
+            <div style="font-size:14px;color:#E2E8F0;line-height:1.5">Client achète 1 stablecoin → verse <strong style="color:#F59E0B">1$</strong> à l'émetteur</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:3%">
+            <div style="min-width:26px;height:26px;border-radius:50%;background:#0D9488;display:flex;align-items:center;justify-content:center;font-family:Syne,sans-serif;font-weight:800;color:white;font-size:14px;flex-shrink:0">2</div>
+            <div style="font-size:14px;color:#E2E8F0;line-height:1.5">Émetteur place en <strong style="color:#F59E0B">T-Bills US</strong> (rendement ≈ 5%)</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:3%">
+            <div style="min-width:26px;height:26px;border-radius:50%;background:#F59E0B;display:flex;align-items:center;justify-content:center;font-family:Syne,sans-serif;font-weight:800;color:#0A1628;font-size:14px;flex-shrink:0">3</div>
+            <div style="font-size:14px;color:#E2E8F0;line-height:1.5">Il <strong style="color:#F59E0B">garde les intérêts</strong> — le détenteur n'en perçoit aucun</div>
+          </div>
+        </div>
+
+        <!-- Formule + Tether -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:2%">
+          <div style="background:linear-gradient(135deg,#065F46,#0D9488);border-radius:10px;padding:4%;display:flex;flex-direction:column;justify-content:center;gap:6%">
+            <div style="font-family:JetBrains Mono,monospace;font-size:12px;color:rgba(255,255,255,.6)">FORMULE</div>
+            <div style="font-family:JetBrains Mono,monospace;font-size:13px;color:white;line-height:1.6">100 Md$ × 5%</div>
+            <div style="font-family:Syne,sans-serif;font-size:20px;font-weight:800;color:#F59E0B">= 5 Md$/an</div>
+          </div>
+          <div style="background:rgba(120,53,15,.6);border:1px solid rgba(245,158,11,.2);border-radius:10px;padding:4%;display:flex;flex-direction:column;justify-content:center;gap:6%">
+            <div style="font-family:Syne,sans-serif;font-size:12px;font-weight:700;color:#F59E0B">📊 TETHER 2024</div>
+            <div style="font-family:Syne,sans-serif;font-size:18px;font-weight:800;color:white">6–7 Md$</div>
+            <div style="font-size:12px;color:#94A3B8;line-height:1.4">profit annuel<br>~100 employés</div>
+          </div>
+        </div>
+
+        <!-- Seigniorage -->
+        <div style="background:rgba(30,58,95,.5);border:1px solid rgba(13,148,136,.2);border-radius:10px;padding:3.5% 4%;flex:1;display:flex;flex-direction:column;justify-content:center;gap:5%">
+          <div style="font-family:Syne,sans-serif;font-size:13px;font-weight:700;color:#14B8A6">⚠️ SEIGNIORAGE PRIVÉ</div>
+          <div style="font-size:13px;color:#E2E8F0;line-height:1.6">Historiquement réservé aux États. Les stablecoins <strong style="color:#F59E0B">privatisent ce privilège régalien</strong> → quasi-banques sans contraintes réglementaires.</div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:2%;margin-top:2%">
+            <div style="background:rgba(0,0,0,.3);border-radius:6px;padding:2.5% 3%;text-align:center;font-size:11px;color:#94A3B8">💱 Frais<br>conversion</div>
+            <div style="background:rgba(0,0,0,.3);border-radius:6px;padding:2.5% 3%;text-align:center;font-size:11px;color:#94A3B8">🏦 Custody<br>instit.</div>
+            <div style="background:rgba(0,0,0,.3);border-radius:6px;padding:2.5% 3%;text-align:center;font-size:11px;color:#94A3B8">⚡ Services<br>DeFi</div>
+            <div style="background:rgba(0,0,0,.3);border-radius:6px;padding:2.5% 3%;text-align:center;font-size:11px;color:#94A3B8">🔗 Frais<br>on-chain</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ══ DROITE : TOKENISATION ══ -->
+      <div style="display:flex;flex-direction:column;gap:2%">
+
+        <div style="display:flex;align-items:center;gap:1.5%;margin-bottom:0.5%">
+          <div style="height:2px;width:18px;background:#8B5CF6;border-radius:2px"></div>
+          <span style="font-family:Syne,sans-serif;font-size:13px;font-weight:700;color:#8B5CF6;letter-spacing:.08em">TOKENISATION DES ACTIFS</span>
+        </div>
+
+        <!-- Définition -->
+        <div style="background:rgba(124,58,237,.2);border:1px solid rgba(139,92,246,.25);border-radius:10px;padding:3% 4%">
+          <div style="font-size:14px;color:#E2E8F0;line-height:1.6">Convertir des actifs réels en tokens sur blockchain. Les stablecoins = <strong style="color:#14B8A6">monnaie de règlement</strong>.</div>
+        </div>
+
+        <!-- 4 types d'actifs -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5%">
+          <div style="background:rgba(30,58,95,.6);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:3.5% 4%;display:flex;align-items:center;gap:4%">
+            <span style="font-size:20px">📄</span>
+            <div><div style="font-family:Syne,sans-serif;font-size:13px;font-weight:700;color:white">Obligations</div><div style="font-size:11px;color:#64748B">Règlement DvP</div></div>
+          </div>
+          <div style="background:rgba(6,95,70,.5);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:3.5% 4%;display:flex;align-items:center;gap:4%">
+            <span style="font-size:20px">📈</span>
+            <div><div style="font-family:Syne,sans-serif;font-size:13px;font-weight:700;color:white">Actions</div><div style="font-size:11px;color:#64748B">Fractionnement</div></div>
+          </div>
+          <div style="background:rgba(124,58,237,.4);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:3.5% 4%;display:flex;align-items:center;gap:4%">
+            <span style="font-size:20px">🏢</span>
+            <div><div style="font-family:Syne,sans-serif;font-size:13px;font-weight:700;color:white">Immobilier</div><div style="font-size:11px;color:#64748B">Accès fractionné</div></div>
+          </div>
+          <div style="background:rgba(146,64,14,.5);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:3.5% 4%;display:flex;align-items:center;gap:4%">
+            <span style="font-size:20px">💼</span>
+            <div><div style="font-family:Syne,sans-serif;font-size:13px;font-weight:700;color:white">Fonds</div><div style="font-size:11px;color:#64748B">Souscription on-chain</div></div>
+          </div>
+        </div>
+
+        <!-- DvP schéma -->
+        <div style="background:rgba(10,22,40,.8);border:1px solid rgba(13,148,136,.2);border-radius:10px;padding:3.5% 4%;flex:1;display:flex;flex-direction:column;gap:6%">
+          <div style="font-family:Syne,sans-serif;font-size:13px;font-weight:700;color:#14B8A6">⚡ DELIVERY vs PAYMENT (DvP)</div>
+          <div>
+            <div style="font-size:12px;color:#64748B;margin-bottom:2%;font-style:italic">Modèle classique (T+2) :</div>
+            <div style="display:flex;align-items:center;gap:2%;flex-wrap:wrap">
+              <div style="background:#334155;border-radius:4px;padding:1.5% 2.5%;font-size:12px;color:#E2E8F0">Acheteur</div>
+              <span style="color:#64748B;font-size:12px">→</span>
+              <div style="background:#334155;border-radius:4px;padding:1.5% 2.5%;font-size:12px;color:#E2E8F0">Compensation</div>
+              <span style="color:#64748B;font-size:12px">→</span>
+              <div style="background:#334155;border-radius:4px;padding:1.5% 2.5%;font-size:12px;color:#E2E8F0">Dépositaire</div>
+              <span style="color:#EF4444;font-size:12px;font-weight:700">2 jours</span>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:12px;color:#14B8A6;margin-bottom:2%;font-style:italic">On-chain avec stablecoin :</div>
+            <div style="display:flex;align-items:center;gap:2%;flex-wrap:wrap">
+              <div style="background:#0D9488;border-radius:4px;padding:1.5% 2.5%;font-size:12px;color:white">Token actif</div>
+              <span style="color:#F59E0B;font-size:14px">⇄</span>
+              <div style="background:#0D9488;border-radius:4px;padding:1.5% 2.5%;font-size:12px;color:white">Stablecoin</div>
+              <span style="color:#10B981;font-size:12px;font-weight:700">Instantané · atomique</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Marché -->
+        <div style="background:linear-gradient(135deg,rgba(109,40,217,.5),rgba(124,58,237,.4));border:1px solid rgba(139,92,246,.3);border-radius:10px;padding:3% 4%;display:grid;grid-template-columns:1fr 1fr;gap:4%">
+          <div style="text-align:center">
+            <div style="font-family:Syne,sans-serif;font-size:20px;font-weight:800;color:white">16 000 Md$</div>
+            <div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:2%">Potentiel 2030 (McKinsey)</div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-family:Syne,sans-serif;font-size:20px;font-weight:800;color:#F59E0B">+20%</div>
+            <div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:2%">Revenus CIB SG-FORGE</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- SLIDE 13 — BANK RUN -->
+<div class="slide-wrapper" id="sw5">
+  <div class="slide" style="background:var(--offwhite)">
+    <div class="slide-header" style="background:var(--navy)">
+      <h2>04 — L'IMPACT GÉOPOLITIQUE DES STABLECOINS</h2>
+      <div class="header-accent" style="background:var(--accent)"></div>
+      <span class="header-icon">🌍</span>
+    </div>
+    <div class="slide-body">
+      <div style="background:linear-gradient(135deg,#1E3A5F,#0369A1);border-radius:8px;padding:2.5% 3%;margin-bottom:2%;text-align:center">
+        <div style="font-family:Syne,sans-serif;font-size:18px;font-weight:700;color:white">+90% des stablecoins sont libellés en <span style="color:var(--gold)">dollars américains</span></div>
+        <div style="font-size:15px;color:rgba(255,255,255,.75);margin-top:1%">→ Phénomène de <strong style="color:var(--gold)">dollarisation numérique</strong> à l'échelle mondiale</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:2%;height:68%">
+        <div style="background:#991B1B;border-radius:8px;padding:3% 4%;display:flex;flex-direction:column">
+          <div style="font-family:Syne,sans-serif;font-size:16px;font-weight:700;color:var(--gold);margin-bottom:3%">🇺🇸 AVANTAGE AMÉRICAIN</div>
+          <div style="font-size:15px;color:var(--offwhite);line-height:1.6;flex:1">Les stablecoins USD permettent d'utiliser le dollar <strong>sans banque américaine ni SWIFT</strong>.<br><br>Résultat : <strong style="color:var(--gold)">extension du soft power financier</strong> américain via la blockchain.</div>
+          <div style="background:rgba(0,0,0,.25);border-radius:6px;padding:2% 3%;margin-top:3%"><div style="font-size:14px;color:rgba(255,255,255,.8)">USDT + USDC = 259 Md$ de<br>« dollars hors USA »</div></div>
+        </div>
+        <div style="background:#1E3A8A;border-radius:8px;padding:3% 4%;display:flex;flex-direction:column">
+          <div style="font-family:Syne,sans-serif;font-size:16px;font-weight:700;color:var(--teal-light);margin-bottom:3%">🇪🇺 RIPOSTE EUROPÉENNE</div>
+          <div style="font-size:15px;color:var(--offwhite);line-height:1.6;flex:1">L'Europe craint une <strong>perte de souveraineté monétaire</strong> si les ménages adoptent des stablecoins en dollars.<br><br><strong style="color:var(--gold)">Réponse triple :</strong> MiCA strict + EMT euros + euro numérique (CBDC).</div>
+          <div style="background:rgba(0,0,0,.25);border-radius:6px;padding:2% 3%;margin-top:3%"><div style="font-size:14px;color:rgba(255,255,255,.8)">Stablecoins € = ~500 M$<br>vs 259 Md$ USD</div></div>
+        </div>
+        <div style="background:#065F46;border-radius:8px;padding:3% 4%;display:flex;flex-direction:column">
+          <div style="font-family:Syne,sans-serif;font-size:16px;font-weight:700;color:var(--gold);margin-bottom:3%">🌍 MARCHÉS ÉMERGENTS</div>
+          <div style="font-size:15px;color:var(--offwhite);line-height:1.6;flex:1">Dans les pays à forte inflation (Argentine, Venezuela, Turquie…), les stablecoins USD permettent de <strong>se protéger de la dévaluation</strong> locale.<br><br>Adoption massive comme <strong style="color:var(--gold)">alternative de facto</strong>.</div>
+          <div style="background:rgba(0,0,0,.25);border-radius:6px;padding:2% 3%;margin-top:3%"><div style="font-size:14px;color:rgba(255,255,255,.8)">Argentine : adoption USDT<br>parmi les + élevées au monde</div></div>
+        </div>
+      </div>
+      <div style="background:var(--navy);border-radius:6px;padding:1.5% 3%;margin-top:2%;text-align:center">
+        <div style="font-size:15px;color:var(--gold);font-style:italic;font-family:JetBrains Mono,monospace">« Qui contrôle la monnaie numérique mondiale contrôle les flux financiers du XXIe siècle »</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 15 — VS PAIEMENTS -->
+<div class="slide-wrapper" id="sw6">
+  <div class="slide" id="s8" style="background:var(--offwhite)">
+    <div class="slide-header" style="background:var(--navy)">
+      <h2>05 — RISQUES &amp; ENJEUX</h2>
+      <div class="header-accent" style="background:var(--red)"></div>
+      <span class="header-icon">⚠️</span>
+    </div>
+    <div class="slide-body">
+      <div class="risk-layout">
+        <div>
+          <div class="risk-item" style="background:#7F1D1D">
+            <div class="risk-top"><span class="risk-name">RISQUE DE RÉSERVE</span><span class="risk-badge" style="background:var(--red)">ÉLEVÉ</span></div>
+            <div class="risk-desc">Réserves insuffisantes → bank run numérique → perte de parité (break the peg)</div>
+          </div>
+          <div class="risk-item" style="background:#991B1B">
+            <div class="risk-top"><span class="risk-name">RISQUE DE LIQUIDITÉ</span><span class="risk-badge" style="background:var(--red)">ÉLEVÉ</span></div>
+            <div class="risk-desc">Rachats massifs → vente forcée T-Bills → stress sur money markets</div>
+          </div>
+          <div class="risk-item" style="background:#92400E">
+            <div class="risk-top"><span class="risk-name">DÉSINTERMÉDIATION</span><span class="risk-badge" style="background:var(--gold);color:#000">MOYEN</span></div>
+            <div class="risk-desc">Migration dépôts → stablecoins → baisse capacité de crédit bancaire</div>
+          </div>
+          <div class="risk-item" style="background:#1E40AF">
+            <div class="risk-top"><span class="risk-name">RISQUE CYBER</span><span class="risk-badge" style="background:var(--gold);color:#000">MOYEN</span></div>
+            <div class="risk-desc">Smart contracts, oracles, wallets — hack = contagion systémique</div>
+          </div>
+          <div class="risk-item" style="background:#065F46">
+            <div class="risk-top"><span class="risk-name">RISQUE RÉGLEMENTAIRE</span><span class="risk-badge" style="background:var(--green)">FAIBLE</span></div>
+            <div class="risk-desc">Non-conformité MiCA → amendes 5% CA, retrait agrément CASP</div>
+          </div>
+        </div>
+        <div>
+          <div class="adv-header">✅ AVANTAGES</div>
+          <div class="adv-item"><div class="adv-check">✓</div>Règlement 24/7 instantané</div>
+          <div class="adv-item"><div class="adv-check">✓</div>Coûts cross-border réduits</div>
+          <div class="adv-item"><div class="adv-check">✓</div>Programmabilité &amp; DeFi</div>
+          <div class="adv-item"><div class="adv-check">✓</div>Collatéral d'actifs tokenisés</div>
+          <div class="adv-item"><div class="adv-check">✓</div>Traçabilité blockchain</div>
+          <div class="adv-item"><div class="adv-check">✓</div>Nouveaux services bancaires</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 9 -->
+<div class="slide-wrapper" id="sw7">
+  <div class="slide" id="s4" style="background:var(--offwhite)">
+    <div class="slide-header" style="background:var(--navy)">
+      <h2>06 — RÉGLEMENTATION MICA</h2>
+      <div class="header-accent" style="background:var(--gold)"></div>
+      <span class="header-icon">🛡</span>
+    </div>
+    <div class="slide-body">
+      <div class="mica-layout">
+        <div>
+          <div class="mica-header-box">
+            <div class="mica-h-title">MiCA — Markets in Crypto-Assets Regulation</div>
+            <div class="mica-h-sub">Première réglementation mondiale complète sur les crypto-actifs</div>
+          </div>
+          <div class="cats-row">
+            <div class="cat-card" style="background:var(--teal)">
+              <div class="cat-big">ART</div>
+              <div class="cat-full">Asset-Referenced Token</div>
+              <div class="cat-desc">Adossé à panier d'actifs<br>Fonds propres 2-3%<br>Réserves diversifiées</div>
+            </div>
+            <div class="cat-card" style="background:#7C3AED">
+              <div class="cat-big">EMT</div>
+              <div class="cat-full">Electronic Money Token</div>
+              <div class="cat-desc">Adossé 1:1 à monnaie<br>Droit remboursement à la par<br>Réserves liquides sûres</div>
+            </div>
+          </div>
+          <div class="rules-box">
+            <div class="rules-title">Obligations clés MiCA pour les émetteurs :</div>
+            <div class="rule-item"><div class="rule-dot"></div>Réserves 100% actifs haute qualité (cash BCE, T-Bills &lt; 3 mois)</div>
+            <div class="rule-item"><div class="rule-dot"></div>Interdiction de versement d'intérêts aux détenteurs</div>
+            <div class="rule-item"><div class="rule-dot"></div>Audits mensuels obligatoires + ségrégation des réserves</div>
+            <div class="rule-item"><div class="rule-dot"></div>Rachat instantané à la valeur nominale garanti</div>
+          </div>
+          <div class="supervisors">
+            <div class="sup-box" style="background:var(--teal)">AMF</div>
+            <div class="sup-box" style="background:var(--blue)">ACPR</div>
+          </div>
+        </div>
+        <div class="timeline-box">
+          <div class="tl-title">CALENDRIER MICA</div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div>
+              <div class="tl-date">30 juin 2024</div>
+              <div class="tl-event">Règles ART/EMT applicables — autorisation obligatoire</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div>
+              <div class="tl-date">30 déc. 2024</div>
+              <div class="tl-event">Régime CASP en vigueur pour plateformes</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div>
+              <div class="tl-date">31 déc. 2025</div>
+              <div class="tl-event">Migration obligatoire vers agrément MiCA</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div>
+              <div class="tl-date">1er juil. 2026</div>
+              <div class="tl-event">Seuls acteurs agréés MiCA opèrent légalement</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 5 -->
+<div class="slide-wrapper" id="sw8">
+  <div class="slide" id="s7" style="background:var(--offwhite)">
+    <div class="slide-header" style="background:var(--navy)">
+      <h2>07 — POSITIONNEMENT DE LA BCE</h2>
+      <div class="header-accent" style="background:var(--teal)"></div>
+      <span class="header-icon">€</span>
+    </div>
+    <div class="slide-body">
+      <div class="quote-box">
+        <div class="quote-text">"Une adoption massive des stablecoins, particulièrement non libellés en euro, poserait des risques majeurs pour la souveraineté monétaire et la stabilité financière de la zone euro."</div>
+        <div class="quote-src">BCE — Mars 2026</div>
+      </div>
+      <div class="axes-grid">
+        <div class="axis-card">
+          <div class="axis-header" style="background:var(--red)">
+            <div class="axis-num">1</div>
+            <div class="axis-htitle">RISQUE :<br>Dollarisation</div>
+          </div>
+          <div class="axis-body">
+            <div class="axis-text">+1% stablecoins = -0,5% dépôts bancaires eurozone<br><br>Affaiblit la transmission de la politique monétaire<br><br>Scénario 2030 : 4 000 Md€ → impact crédit -2/3% PIB</div>
+          </div>
+        </div>
+        <div class="axis-card">
+          <div class="axis-header" style="background:var(--teal)">
+            <div class="axis-num">2</div>
+            <div class="axis-htitle">RÉPONSE :<br>MiCA + €-Numérique</div>
+          </div>
+          <div class="axis-body">
+            <div class="axis-text">MiCA validé mais insuffisant selon la BCE<br><br>Euro numérique : phase pilote 2027 / retail 2029<br><br>Souverain, sans risque, complémentaire des banques</div>
+          </div>
+        </div>
+        <div class="axis-card">
+          <div class="axis-header" style="background:var(--gold)">
+            <div class="axis-num" style="color:var(--navy)">3</div>
+            <div class="axis-htitle" style="color:var(--navy)">CONSÉQUENCE<br>POUR LA FRANCE</div>
+          </div>
+          <div class="axis-body">
+            <div class="axis-text">BCE pousse vers EMT en euro (pas USD)<br><br>Favorise SG-FORGE, Qivalis vs pure-players<br><br>Réserves BCE/overnight obligatoires</div>
+          </div>
+        </div>
+      </div>
+      <div class="bce-footer">Octobre 2025 : Le Conseil des gouverneurs de la BCE a validé le passage à l'étape suivante du projet d'euro numérique</div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 8 -->
+<div class="slide-wrapper" id="sw9">
+  <div class="slide" style="background:#0A1628;position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:12px;box-shadow:0 32px 80px rgba(0,0,0,0.6);font-family:Space Grotesk,sans-serif">
+
+    <!-- Ambient glows -->
+    <div style="position:absolute;top:-15%;left:-5%;width:50%;height:60%;background:radial-gradient(ellipse,rgba(13,148,136,.15) 0%,transparent 70%);pointer-events:none"></div>
+    <div style="position:absolute;bottom:-15%;right:-5%;width:45%;height:60%;background:radial-gradient(ellipse,rgba(245,158,11,.1) 0%,transparent 70%);pointer-events:none"></div>
+
+    <!-- HEADER -->
+    <div style="position:absolute;top:0;left:0;right:0;height:11%;display:flex;align-items:center;padding:0 3%;border-bottom:1px solid rgba(255,255,255,.07)">
+      <div style="width:4px;height:62%;background:linear-gradient(180deg,#0D9488,#F59E0B);border-radius:2px;margin-right:2%"></div>
+      <div style="font-family:Syne,sans-serif;font-size:24px;font-weight:800;color:white;letter-spacing:.02em">08 — RÔLE &amp; ACTEURS — LES BANQUES FRANÇAISES</div>
+    </div>
+
+    <!-- BODY: stacked top/bottom -->
+    <div style="position:absolute;top:13%;left:2%;right:2%;bottom:1.5%;display:flex;flex-direction:column;gap:2%">
+
+      <!-- ══ TOP: 6 USAGES ══ -->
+      <div style="flex:0 0 auto">
+
+        <!-- Section label -->
+        <div style="display:flex;align-items:center;gap:1.5%;margin-bottom:1.5%">
+          <div style="height:2px;width:20px;background:#0D9488;border-radius:2px"></div>
+          <span style="font-family:Syne,sans-serif;font-size:13px;font-weight:700;color:#0D9488;letter-spacing:.1em">USAGES BANCAIRES</span>
+          <div style="height:1px;flex:1;background:linear-gradient(90deg,rgba(13,148,136,.4),transparent)"></div>
+        </div>
+
+        <!-- 6 cards in a row -->
+        <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:1.2%">
+
+          <div style="background:rgba(30,58,95,.65);border:1px solid rgba(13,148,136,.22);border-radius:10px;padding:3.5% 4%;display:flex;flex-direction:column;align-items:center;gap:6%">
+            <div style="width:38px;height:38px;border-radius:50%;background:rgba(13,148,136,.2);border:1px solid rgba(13,148,136,.4);display:flex;align-items:center;justify-content:center;font-size:18px">⇄</div>
+            <div style="font-family:Syne,sans-serif;font-size:13px;font-weight:700;color:white;text-align:center;line-height:1.35">Règlement<br>Tokenisé</div>
+            <div style="font-size:11px;color:#64748B;text-align:center;line-height:1.4">Obligations &amp;<br>actions on-chain</div>
+          </div>
+
+          <div style="background:rgba(6,95,70,.5);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:3.5% 4%;display:flex;flex-direction:column;align-items:center;gap:6%">
+            <div style="width:38px;height:38px;border-radius:50%;background:rgba(16,185,129,.2);border:1px solid rgba(16,185,129,.4);display:flex;align-items:center;justify-content:center;font-size:18px">🌐</div>
+            <div style="font-family:Syne,sans-serif;font-size:13px;font-weight:700;color:white;text-align:center;line-height:1.35">Paiements<br>Cross-Border</div>
+            <div style="font-size:11px;color:#64748B;text-align:center;line-height:1.4">24/7 · coûts<br>réduits vs SWIFT</div>
+          </div>
+
+          <div style="background:rgba(76,29,149,.45);border:1px solid rgba(139,92,246,.2);border-radius:10px;padding:3.5% 4%;display:flex;flex-direction:column;align-items:center;gap:6%">
+            <div style="width:38px;height:38px;border-radius:50%;background:rgba(139,92,246,.2);border:1px solid rgba(139,92,246,.4);display:flex;align-items:center;justify-content:center;font-size:18px">🔒</div>
+            <div style="font-family:Syne,sans-serif;font-size:13px;font-weight:700;color:white;text-align:center;line-height:1.35">Collatéral<br>DeFi</div>
+            <div style="font-size:11px;color:#64748B;text-align:center;line-height:1.4">Prêts · pools<br>de liquidité</div>
+          </div>
+
+          <div style="background:rgba(6,95,70,.5);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:3.5% 4%;display:flex;flex-direction:column;align-items:center;gap:6%">
+            <div style="width:38px;height:38px;border-radius:50%;background:rgba(16,185,129,.2);border:1px solid rgba(16,185,129,.4);display:flex;align-items:center;justify-content:center;font-size:18px">📈</div>
+            <div style="font-family:Syne,sans-serif;font-size:13px;font-weight:700;color:white;text-align:center;line-height:1.35">Cash<br>Management</div>
+            <div style="font-size:11px;color:#64748B;text-align:center;line-height:1.4">Trésorerie &amp;<br>money market</div>
+          </div>
+
+          <div style="background:rgba(120,53,15,.5);border:1px solid rgba(245,158,11,.2);border-radius:10px;padding:3.5% 4%;display:flex;flex-direction:column;align-items:center;gap:6%">
+            <div style="width:38px;height:38px;border-radius:50%;background:rgba(245,158,11,.2);border:1px solid rgba(245,158,11,.4);display:flex;align-items:center;justify-content:center;font-size:18px">🏛</div>
+            <div style="font-family:Syne,sans-serif;font-size:13px;font-weight:700;color:white;text-align:center;line-height:1.35">Conservation<br>(Custody)</div>
+            <div style="font-size:11px;color:#64748B;text-align:center;line-height:1.4">CACEIS &amp;<br>SG-FORGE</div>
+          </div>
+
+          <div style="background:rgba(30,64,175,.5);border:1px solid rgba(96,165,250,.2);border-radius:10px;padding:3.5% 4%;display:flex;flex-direction:column;align-items:center;gap:6%">
+            <div style="width:38px;height:38px;border-radius:50%;background:rgba(96,165,250,.2);border:1px solid rgba(96,165,250,.4);display:flex;align-items:center;justify-content:center;font-size:18px">💶</div>
+            <div style="font-family:Syne,sans-serif;font-size:13px;font-weight:700;color:white;text-align:center;line-height:1.35">Émission<br>Stablecoin €</div>
+            <div style="font-size:11px;color:#64748B;text-align:center;line-height:1.4">EURCV · Qivalis<br>MiCA</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Separator -->
+      <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(245,158,11,.5),rgba(13,148,136,.5),transparent);flex-shrink:0"></div>
+
+      <!-- ══ BOTTOM: 5 BANKS ══ -->
+      <div style="flex:1;min-height:0">
+
+        <!-- Section label -->
+        <div style="display:flex;align-items:center;gap:1.5%;margin-bottom:1.5%">
+          <div style="height:2px;width:20px;background:#F59E0B;border-radius:2px"></div>
+          <span style="font-family:Syne,sans-serif;font-size:13px;font-weight:700;color:#F59E0B;letter-spacing:.1em">5 GRANDES BANQUES FRANÇAISES</span>
+          <div style="height:1px;flex:1;background:linear-gradient(90deg,rgba(245,158,11,.4),transparent)"></div>
+        </div>
+
+        <!-- 5 bank cards -->
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:1.5%;height:calc(100% - 28px)">
+
+          <!-- SG -->
+          <div style="background:rgba(30,58,95,.7);border:1px solid rgba(16,185,129,.3);border-radius:10px;overflow:hidden;display:flex;flex-direction:column">
+            <div style="background:linear-gradient(135deg,#059669,#10B981);padding:4% 3%;display:flex;align-items:center;justify-content:center;gap:6%">
+              <span style="font-size:16px">🥇</span>
+              <span style="font-family:Syne,sans-serif;font-size:12px;font-weight:700;color:white;letter-spacing:.06em">LEADER</span>
+            </div>
+            <div style="padding:5% 6%;flex:1;display:flex;flex-direction:column;gap:5%">
+              <div style="font-family:Syne,sans-serif;font-size:15px;font-weight:800;color:white;text-align:center;line-height:1.3">Société<br>Générale</div>
+              <div style="font-size:12px;color:#14B8A6;text-align:center;font-weight:600">EURCV + USDCV</div>
+              <div style="font-size:11px;color:#64748B;text-align:center;line-height:1.4;flex:1">SG-FORGE · MiCA<br>juil. 2024</div>
+              <div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4%">
+                  <span style="font-size:11px;color:#64748B">Maturité</span>
+                  <span style="font-family:JetBrains Mono,monospace;font-size:14px;font-weight:700;color:#10B981">95%</span>
+                </div>
+                <div style="height:5px;background:rgba(255,255,255,.08);border-radius:3px">
+                  <div style="height:100%;width:95%;background:linear-gradient(90deg,#059669,#34D399);border-radius:3px"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- BNP -->
+          <div style="background:rgba(6,95,70,.5);border:1px solid rgba(13,148,136,.3);border-radius:10px;overflow:hidden;display:flex;flex-direction:column">
+            <div style="background:linear-gradient(135deg,#0D9488,#14B8A6);padding:4% 3%;display:flex;align-items:center;justify-content:center;gap:6%">
+              <span style="font-size:16px">📋</span>
+              <span style="font-family:Syne,sans-serif;font-size:12px;font-weight:700;color:white;letter-spacing:.06em">EN COURS</span>
+            </div>
+            <div style="padding:5% 6%;flex:1;display:flex;flex-direction:column;gap:5%">
+              <div style="font-family:Syne,sans-serif;font-size:15px;font-weight:800;color:white;text-align:center;line-height:1.3">BNP<br>Paribas</div>
+              <div style="font-size:12px;color:#14B8A6;text-align:center;font-weight:600">Qivalis H2 2026</div>
+              <div style="font-size:11px;color:#64748B;text-align:center;line-height:1.4;flex:1">10 banques<br>européennes</div>
+              <div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4%">
+                  <span style="font-size:11px;color:#64748B">Maturité</span>
+                  <span style="font-family:JetBrains Mono,monospace;font-size:14px;font-weight:700;color:#10B981">65%</span>
+                </div>
+                <div style="height:5px;background:rgba(255,255,255,.08);border-radius:3px">
+                  <div style="height:100%;width:65%;background:linear-gradient(90deg,#059669,#34D399);border-radius:3px"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CA -->
+          <div style="background:rgba(120,53,15,.5);border:1px solid rgba(139,92,246,.3);border-radius:10px;overflow:hidden;display:flex;flex-direction:column">
+            <div style="background:linear-gradient(135deg,#6D28D9,#7C3AED);padding:4% 3%;display:flex;align-items:center;justify-content:center;gap:6%">
+              <span style="font-size:16px">✅</span>
+              <span style="font-family:Syne,sans-serif;font-size:12px;font-weight:700;color:white;letter-spacing:.06em">CUSTODY</span>
+            </div>
+            <div style="padding:5% 6%;flex:1;display:flex;flex-direction:column;gap:5%">
+              <div style="font-family:Syne,sans-serif;font-size:15px;font-weight:800;color:white;text-align:center;line-height:1.3">Crédit<br>Agricole</div>
+              <div style="font-size:12px;color:#14B8A6;text-align:center;font-weight:600">1er CASP MiCA FR</div>
+              <div style="font-size:11px;color:#64748B;text-align:center;line-height:1.4;flex:1">CACEIS<br>infra (Lise)</div>
+              <div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4%">
+                  <span style="font-size:11px;color:#64748B">Maturité</span>
+                  <span style="font-family:JetBrains Mono,monospace;font-size:14px;font-weight:700;color:#F59E0B">50%</span>
+                </div>
+                <div style="height:5px;background:rgba(255,255,255,.08);border-radius:3px">
+                  <div style="height:100%;width:50%;background:linear-gradient(90deg,#D97706,#FCD34D);border-radius:3px"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- BPCE -->
+          <div style="background:rgba(3,105,161,.45);border:1px solid rgba(245,158,11,.25);border-radius:10px;overflow:hidden;display:flex;flex-direction:column">
+            <div style="background:linear-gradient(135deg,#D97706,#F59E0B);padding:4% 3%;display:flex;align-items:center;justify-content:center;gap:6%">
+              <span style="font-size:16px">⏳</span>
+              <span style="font-family:Syne,sans-serif;font-size:12px;font-weight:700;color:#0A1628;letter-spacing:.06em">PRÉPARÉ</span>
+            </div>
+            <div style="padding:5% 6%;flex:1;display:flex;flex-direction:column;gap:5%">
+              <div style="font-family:Syne,sans-serif;font-size:15px;font-weight:800;color:white;text-align:center;line-height:1.3">BPCE</div>
+              <div style="font-size:12px;color:#14B8A6;text-align:center;font-weight:600">Natixis 2026</div>
+              <div style="font-size:11px;color:#64748B;text-align:center;line-height:1.4;flex:1">Hexarq<br>30M clients</div>
+              <div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4%">
+                  <span style="font-size:11px;color:#64748B">Maturité</span>
+                  <span style="font-family:JetBrains Mono,monospace;font-size:14px;font-weight:700;color:#F59E0B">35%</span>
+                </div>
+                <div style="height:5px;background:rgba(255,255,255,.08);border-radius:3px">
+                  <div style="height:100%;width:35%;background:linear-gradient(90deg,#D97706,#FCD34D);border-radius:3px"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- LBP -->
+          <div style="background:rgba(30,41,59,.7);border:1px solid rgba(100,116,139,.2);border-radius:10px;overflow:hidden;display:flex;flex-direction:column">
+            <div style="background:linear-gradient(135deg,#334155,#475569);padding:4% 3%;display:flex;align-items:center;justify-content:center;gap:6%">
+              <span style="font-size:16px">👁</span>
+              <span style="font-family:Syne,sans-serif;font-size:12px;font-weight:700;color:white;letter-spacing:.06em">OBSERVATION</span>
+            </div>
+            <div style="padding:5% 6%;flex:1;display:flex;flex-direction:column;gap:5%">
+              <div style="font-family:Syne,sans-serif;font-size:15px;font-weight:800;color:white;text-align:center;line-height:1.3">Banque<br>Postale</div>
+              <div style="font-size:12px;color:#14B8A6;text-align:center;font-weight:600">Priorité MNBC</div>
+              <div style="font-size:11px;color:#64748B;text-align:center;line-height:1.4;flex:1">Inclusion<br>bancaire</div>
+              <div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4%">
+                  <span style="font-size:11px;color:#64748B">Maturité</span>
+                  <span style="font-family:JetBrains Mono,monospace;font-size:14px;font-weight:700;color:#EF4444">10%</span>
+                </div>
+                <div style="height:5px;background:rgba(255,255,255,.08);border-radius:3px">
+                  <div style="height:100%;width:10%;background:linear-gradient(90deg,#DC2626,#F87171);border-radius:3px"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<!-- SLIDE 7 -->
+<div class="slide-wrapper" id="sw10">
+  <div class="slide" style="background:var(--offwhite)">
+    <div class="slide-header" style="background:var(--navy)">
+      <h2>09 — STABLECOINS vs MOYENS DE PAIEMENT TRADITIONNELS</h2>
+      <div class="header-accent" style="background:var(--teal)"></div>
+      <span class="header-icon">💳</span>
+    </div>
+    <div class="slide-body">
+
+      <!-- Header row -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1.4fr;gap:1%;margin-bottom:1.2%">
+        <div style="background:var(--dark-gray);border-radius:6px;padding:2.5% 3%;font-family:Syne,sans-serif;font-size:15px;font-weight:700;color:white;text-align:center">💵 Espèces</div>
+        <div style="background:#1E3A5F;border-radius:6px;padding:2.5% 3%;font-family:Syne,sans-serif;font-size:15px;font-weight:700;color:white;text-align:center">💳 Carte bancaire</div>
+        <div style="background:#0369A1;border-radius:6px;padding:2.5% 3%;font-family:Syne,sans-serif;font-size:15px;font-weight:700;color:white;text-align:center">🏦 SWIFT</div>
+        <div style="background:#7C3AED;border-radius:6px;padding:2.5% 3%;font-family:Syne,sans-serif;font-size:15px;font-weight:700;color:white;text-align:center">📱 PayPal/Fintech</div>
+        <div style="background:var(--teal);border-radius:6px;padding:2.5% 3%;font-family:Syne,sans-serif;font-size:15px;font-weight:700;color:white;text-align:center">🔗 Stablecoin ✨</div>
+      </div>
+
+      <!-- Criteria rows -->
+      <div style="display:flex;flex-direction:column;gap:1%">
+
+        <!-- Vitesse -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1.4fr;gap:1%;align-items:stretch">
+          <div style="background:var(--card-bg);border:1px solid #E2E8F0;border-radius:6px;padding:2% 3%;text-align:center">
+            <div style="font-size:14px;color:var(--gray);margin-bottom:2%">⏱ Vitesse</div>
+            <div style="font-size:15px;color:var(--dark-gray);font-weight:500">Immédiat (physique)</div>
+          </div>
+          <div style="background:var(--card-bg);border:1px solid #E2E8F0;border-radius:6px;padding:2% 3%;text-align:center">
+            <div style="font-size:14px;color:var(--gray);margin-bottom:2%">⏱ Vitesse</div>
+            <div style="font-size:15px;color:var(--dark-gray);font-weight:500">Quelques secondes</div>
+          </div>
+          <div style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:6px;padding:2% 3%;text-align:center">
+            <div style="font-size:14px;color:var(--gray);margin-bottom:2%">⏱ Vitesse</div>
+            <div style="font-size:15px;color:var(--red);font-weight:600">1 à 3 jours ouvrés</div>
+          </div>
+          <div style="background:var(--card-bg);border:1px solid #E2E8F0;border-radius:6px;padding:2% 3%;text-align:center">
+            <div style="font-size:14px;color:var(--gray);margin-bottom:2%">⏱ Vitesse</div>
+            <div style="font-size:15px;color:var(--dark-gray);font-weight:500">Minutes</div>
+          </div>
+          <div style="background:rgba(13,148,136,.12);border:2px solid var(--teal);border-radius:6px;padding:2% 3%;text-align:center">
+            <div style="font-size:14px;color:var(--teal);margin-bottom:2%">⏱ Vitesse</div>
+            <div style="font-size:15px;color:var(--teal);font-weight:700">Secondes — 24h/24</div>
+          </div>
+        </div>
+
+        <!-- Coût international -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1.4fr;gap:1%;align-items:stretch">
+          <div style="background:var(--card-bg);border:1px solid #E2E8F0;border-radius:6px;padding:2% 3%;text-align:center">
+            <div style="font-size:14px;color:var(--gray);margin-bottom:2%">💸 Coût intl.</div>
+            <div style="font-size:15px;color:var(--dark-gray)">Impossible</div>
+          </div>
+          <div style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:6px;padding:2% 3%;text-align:center">
+            <div style="font-size:14px;color:var(--gray);margin-bottom:2%">💸 Coût intl.</div>
+            <div style="font-size:15px;color:var(--red);font-weight:600">1 – 3%</div>
+          </div>
+          <div style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:6px;padding:2% 3%;text-align:center">
+            <div style="font-size:14px;color:var(--gray);margin-bottom:2%">💸 Coût intl.</div>
+            <div style="font-size:15px;color:var(--red);font-weight:600">10 – 50 €</div>
+          </div>
+          <div style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:6px;padding:2% 3%;text-align:center">
+            <div style="font-size:14px;color:var(--gray);margin-bottom:2%">💸 Coût intl.</div>
+            <div style="font-size:15px;color:var(--red);font-weight:600">2 – 4%</div>
+          </div>
+          <div style="background:rgba(13,148,136,.12);border:2px solid var(--teal);border-radius:6px;padding:2% 3%;text-align:center">
+            <div style="font-size:14px;color:var(--teal);margin-bottom:2%">💸 Coût intl.</div>
+            <div style="font-size:15px;color:var(--teal);font-weight:700">&lt; 1 €</div>
+          </div>
+        </div>
+
+        <!-- Programmabilité -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1.4fr;gap:1%;align-items:stretch">
+          <div style="background:var(--card-bg);border:1px solid #E2E8F0;border-radius:6px;padding:2% 3%;text-align:center">
+            <div style="font-size:14px;color:var(--gray);margin-bottom:2%">⚙️ Programmabilité</div>
+            <div style="font-size:16px">❌</div>
+          </div>
+          <div style="background:var(--card-bg);border:1px solid #E2E8F0;border-radius:6px;padding:2% 3%;text-align:center">
+            <div style="font-size:14px;color:var(--gray);margin-bottom:2%">⚙️ Programmabilité</div>
+            <div style="font-size:16px">❌</div>
+          </div>
+          <div style="background:var(--card-bg);border:1px solid #E2E8F0;border-radius:6px;padding:2% 3%;text-align:center">
+            <div style="font-size:14px;color:var(--gray);margin-bottom:2%">⚙️ Programmabilité</div>
+            <div style="font-size:16px">❌</div>
+          </div>
+          <div style="background:var(--card-bg);border:1px solid #E2E8F0;border-radius:6px;padding:2% 3%;text-align:center">
+            <div style="font-size:14px;color:var(--gray);margin-bottom:2%">⚙️ Programmabilité</div>
+            <div style="font-size:15px;color:var(--dark-gray)">Limitée</div>
+          </div>
+          <div style="background:rgba(13,148,136,.12);border:2px solid var(--teal);border-radius:6px;padding:2% 3%;text-align:center">
+            <div style="font-size:14px;color:var(--teal);margin-bottom:2%">⚙️ Programmabilité</div>
+            <div style="font-size:15px;color:var(--teal);font-weight:700">✅ Smart contracts</div>
+          </div>
+        </div>
+
+        <!-- Accessibilité -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1.4fr;gap:1%;align-items:stretch">
+          <div style="background:var(--card-bg);border:1px solid #E2E8F0;border-radius:6px;padding:2% 3%;text-align:center">
+            <div style="font-size:14px;color:var(--gray);margin-bottom:2%">🌍 Accès</div>
+            <div style="font-size:15px;color:var(--dark-gray)">Physique requis</div>
+          </div>
+          <div style="background:var(--card-bg);border:1px solid #E2E8F0;border-radius:6px;padding:2% 3%;text-align:center">
+            <div style="font-size:14px;color:var(--gray);margin-bottom:2%">🌍 Accès</div>
+            <div style="font-size:15px;color:var(--dark-gray)">Compte bancaire</div>
+          </div>
+          <div style="background:var(--card-bg);border:1px solid #E2E8F0;border-radius:6px;padding:2% 3%;text-align:center">
+            <div style="font-size:14px;color:var(--gray);margin-bottom:2%">🌍 Accès</div>
+            <div style="font-size:15px;color:var(--dark-gray)">Compte bancaire</div>
+          </div>
+          <div style="background:var(--card-bg);border:1px solid #E2E8F0;border-radius:6px;padding:2% 3%;text-align:center">
+            <div style="font-size:14px;color:var(--gray);margin-bottom:2%">🌍 Accès</div>
+            <div style="font-size:15px;color:var(--dark-gray)">Email</div>
+          </div>
+          <div style="background:rgba(13,148,136,.12);border:2px solid var(--teal);border-radius:6px;padding:2% 3%;text-align:center">
+            <div style="font-size:14px;color:var(--teal);margin-bottom:2%">🌍 Accès</div>
+            <div style="font-size:15px;color:var(--teal);font-weight:700">Wallet uniquement</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Big Tech footer -->
+      <div style="background:var(--navy);border-radius:8px;padding:2% 3%;margin-top:1.5%;display:flex;align-items:center;gap:3%;flex-wrap:wrap">
+        <div style="font-family:Syne,sans-serif;font-size:15px;font-weight:700;color:var(--gold);white-space:nowrap">🚀 Big Tech entrent dans la course :</div>
+        <span style="font-size:15px;color:var(--offwhite)">PayPal <strong style="color:var(--teal-light)">PYUSD</strong></span>
+        <span style="font-size:15px;color:var(--offwhite)">Meta <strong style="color:var(--teal-light)">Libra/Diem</strong></span>
+        <span style="font-size:15px;color:var(--offwhite)">Stripe <strong style="color:var(--teal-light)">Stablecoin payments</strong></span>
+        <span style="font-size:15px;color:var(--offwhite)">Visa/MC <strong style="color:var(--teal-light)">USDC</strong></span>
+        <span style="font-size:15px;color:var(--red);font-weight:600">→ Concurrence directe pour les banques</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- SLIDE 16 — ACTUALITÉS 2026 -->
+<div class="slide-wrapper" id="sw11">
+  <div class="slide" id="s10" style="background:var(--offwhite)">
+    <div class="slide-header" style="background:var(--navy)">
+      <h2>10 — ENJEUX DES STABLECOINS POUR LES BANQUES</h2>
+      <div class="header-accent" style="background:var(--purple)"></div>
+      <span class="header-icon">📊</span>
+    </div>
+    <div class="slide-body">
+      <div class="enjeux-layout">
+        <div>
+          <div class="side-header" style="background:var(--red)">⚠️ MENACES</div>
+          <div class="enjeu-item" style="background:#7F1D1D">
+            <div class="enjeu-title">Fuite des Dépôts</div>
+            <div class="enjeu-desc">Dépôts → stablecoins → réduction de la capacité de crédit<br>-0,5% dépôts par +1% stablecoins (BCE 2026)</div>
+          </div>
+          <div class="enjeu-item" style="background:#991B1B">
+            <div class="enjeu-title">Concurrence Paiements</div>
+            <div class="enjeu-desc">Stablecoins : instantané, 24/7, moins cher vs SWIFT<br>Menace directe sur les revenus de paiements</div>
+          </div>
+          <div class="enjeu-item" style="background:#B91C1C">
+            <div class="enjeu-title">Désintermédiation</div>
+            <div class="enjeu-desc">Fintechs crypto émettent sans licence bancaire<br>Concurrence sur cash management &amp; liquidité</div>
+          </div>
+        </div>
+        <div>
+          <div class="side-header" style="background:var(--green)">✅ OPPORTUNITÉS</div>
+          <div class="enjeu-item" style="background:#065F46">
+            <div class="enjeu-title">Tokenisation d'Actifs</div>
+            <div class="enjeu-desc">Stablecoins = monnaie de règlement pour obligations et fonds tokenisés<br>Nouveau revenu CIB (+20% SG)</div>
+          </div>
+          <div class="enjeu-item" style="background:#0F766E">
+            <div class="enjeu-title">Nouveaux Services</div>
+            <div class="enjeu-desc">Custody, émission EMT, cash management on-chain<br>Clients institutionnels et corporate</div>
+          </div>
+          <div class="enjeu-item" style="background:var(--teal)">
+            <div class="enjeu-title">Avantage MiCA</div>
+            <div class="enjeu-desc">Statut bancaire = fast-track agrément MiCA<br>Barrière à l'entrée vs pure-players crypto</div>
+          </div>
+        </div>
+      </div>
+      <div class="verdict-bar">VERDICT : Double tranchant — Les banques françaises gagnent si l'EMT euro scale, perdent si USDT/USDC dominent l'économie numérique européenne</div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 11 — MODÈLE ÉCONOMIQUE -->
+<div class="slide-wrapper" id="sw12">
+  <div class="slide" style="background:var(--offwhite)">
+    <div class="slide-header" style="background:var(--navy)">
+      <h2>11 — LE RISQUE DE « BANK RUN NUMÉRIQUE »</h2>
+      <div class="header-accent" style="background:var(--red)"></div>
+      <span class="header-icon">🏃</span>
+    </div>
+    <div class="slide-body">
+      <div style="display:grid;grid-template-columns:55% 43%;gap:2%;height:100%">
+        <div>
+          <div style="font-family:Syne,sans-serif;font-size:16px;font-weight:700;color:var(--navy);margin-bottom:2%">LE MÉCANISME DE LA SPIRALE</div>
+          <div style="display:flex;flex-direction:column;gap:1.5%">
+            <div style="background:#7F1D1D;border-radius:8px;padding:2.5% 3%;display:flex;align-items:center;gap:3%">
+              <div style="min-width:28px;height:28px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-family:Syne,sans-serif;font-weight:800;color:white;font-size:16px">1</div>
+              <div style="font-size:15px;color:var(--offwhite)"><strong>Perte de confiance</strong> — rumeur, problème de réserves, crise de marché</div>
+            </div>
+            <div style="text-align:center;color:var(--red);font-size:16px">↓</div>
+            <div style="background:#991B1B;border-radius:8px;padding:2.5% 3%;display:flex;align-items:center;gap:3%">
+              <div style="min-width:28px;height:28px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-family:Syne,sans-serif;font-weight:800;color:white;font-size:16px">2</div>
+              <div style="font-size:15px;color:var(--offwhite)"><strong>Retraits massifs</strong> — tous les détenteurs réclament le remboursement en même temps</div>
+            </div>
+            <div style="text-align:center;color:var(--red);font-size:16px">↓</div>
+            <div style="background:#B91C1C;border-radius:8px;padding:2.5% 3%;display:flex;align-items:center;gap:3%">
+              <div style="min-width:28px;height:28px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-family:Syne,sans-serif;font-weight:800;color:white;font-size:16px">3</div>
+              <div style="font-size:15px;color:var(--offwhite)"><strong>Vente forcée des réserves</strong> — T-Bills liquidés → stress sur money markets</div>
+            </div>
+            <div style="text-align:center;color:var(--red);font-size:16px">↓</div>
+            <div style="background:#7F1D1D;border-radius:8px;padding:2.5% 3%;display:flex;align-items:center;gap:3%;border:2px solid var(--red)">
+              <div style="min-width:28px;height:28px;border-radius:50%;background:#450A0A;display:flex;align-items:center;justify-content:center;font-family:Syne,sans-serif;font-weight:800;color:var(--red);font-size:16px">4</div>
+              <div style="font-size:15px;color:var(--offwhite)"><strong style="color:var(--gold)">Break the peg</strong> — contagion à l'ensemble du système crypto et financier</div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:2%">
+          <div style="background:var(--navy);border-radius:8px;padding:3% 4%;flex:1">
+            <div style="font-family:Syne,sans-serif;font-size:16px;font-weight:700;color:var(--red);margin-bottom:3%">💥 CAS RÉEL — TERRAUSD (2022)</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4%;margin-bottom:4%">
+              <div style="text-align:center;background:rgba(239,68,68,.15);border-radius:6px;padding:3%"><div style="font-family:Syne,sans-serif;font-size:20px;font-weight:800;color:white">40 Md$</div><div style="font-size:15px;color:var(--gray)">Avant la chute</div></div>
+              <div style="text-align:center;background:rgba(239,68,68,.15);border-radius:6px;padding:3%"><div style="font-family:Syne,sans-serif;font-size:20px;font-weight:800;color:var(--red)">~0 $</div><div style="font-size:15px;color:var(--gray)">Après 72h</div></div>
+            </div>
+            <div style="background:rgba(255,255,255,.05);border-radius:6px;padding:2.5% 3%">
+              <div style="font-size:15px;color:var(--offwhite);line-height:1.6">Stablecoin algorithmique sans réserves. <strong style="color:var(--red)">40 milliards</strong> évaporés en 72h. Des centaines de milliers d'investisseurs ruinés.</div>
+            </div>
+          </div>
+          <div style="background:var(--card-bg);border:1px solid #CBD5E1;border-radius:8px;padding:3% 4%">
+            <div style="font-family:Syne,sans-serif;font-size:15px;font-weight:700;color:var(--navy);margin-bottom:3%">BANK RUN CLASSIQUE vs NUMÉRIQUE</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:3%">
+              <div><div style="font-size:14px;color:var(--dark-gray);font-weight:600;margin-bottom:2%">🏦 Classique</div><div style="font-size:14px;color:var(--dark-gray);line-height:1.65">Jours / semaines<br>Freiné par horaires<br>Filet BCE disponible</div></div>
+              <div><div style="font-size:14px;color:var(--red);font-weight:600;margin-bottom:2%">⚡ Numérique</div><div style="font-size:14px;color:var(--dark-gray);line-height:1.65">Minutes / heures<br>24h/24 sans friction<br>Aucun prêteur en dernier ressort</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 14 — GÉOPOLITIQUE -->
+<div class="slide-wrapper" id="sw13">
+  <div class="slide" id="s9" style="background:var(--offwhite)">
+    <div class="slide-header" style="background:var(--navy)">
+      <h2>12 — FRANCE / UE vs ÉTATS-UNIS</h2>
+      <div class="header-accent" style="background:var(--accent)"></div>
+      <span class="header-icon">🌐</span>
+    </div>
+    <div class="slide-body">
+      <div class="compare-grid">
+        <div></div>
+        <div class="col-header" style="background:#1E3A8A">🇪🇺 France / Union Européenne</div>
+        <div class="col-header" style="background:#991B1B">🇺🇸 États-Unis</div>
+
+        <div class="row-label">Réglementation</div>
+        <div class="row-cell" style="background:#1E3A8A">MiCA — cadre unique complet<br>EMT/ART, réserves 100%, audits</div>
+        <div class="row-cell" style="background:#991B1B">Fragmentée : SEC, CFTC, Fed<br>Pas de loi fédérale unique</div>
+
+        <div class="row-label">Approche</div>
+        <div class="row-cell" style="background:#065F46">Régulation AVANT l'innovation<br>Protection consommateurs &amp; stabilité</div>
+        <div class="row-cell" style="background:#B45309">Innovation PRIORITAIRE<br>Supervision progressive et flexible</div>
+
+        <div class="row-label">Stablecoins dominants</div>
+        <div class="row-cell" style="background:var(--teal)">EURCV (SG-FORGE), Qivalis<br>Marché encore minoritaire</div>
+        <div class="row-cell" style="background:var(--red)">USDT (184 Md$), USDC (75 Md$)<br>+90% du marché mondial</div>
+
+        <div class="row-label">Vision stratégique</div>
+        <div class="row-cell" style="background:#7C3AED">Souveraineté monétaire européenne<br>Euro numérique comme contre-offre</div>
+        <div class="row-cell" style="background:#92400E">Dollarisation numérique = soft power<br>Stablecoins renforcent le $ mondial</div>
+
+        <div class="row-label">Banques impliquées</div>
+        <div class="row-cell" style="background:#1E40AF">SG-FORGE leader, BNP Consortium<br>CACEIS custody institutionnel</div>
+        <div class="row-cell" style="background:#0369A1">JPMorgan (JPM Coin)<br>Blockchains privées interbancaires</div>
+
+        <div class="bottom-insight">Enjeu géopolitique clé : les stablecoins USD étendent l'hégémonie du dollar sans SWIFT — l'Europe riposte via MiCA + euro numérique</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 10 -->
+<div class="slide-wrapper" id="sw14">
+  <div class="slide" style="background:#0d1117;position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:12px;box-shadow:0 32px 80px rgba(0,0,0,0.6)">
+
+    <!-- Newspaper header -->
+    <div style="position:absolute;top:0;left:0;right:0;height:12%;background:#0A1628;display:flex;align-items:center;justify-content:space-between;padding:0 3%;border-bottom:3px solid #F59E0B">
+      <div style="display:flex;align-items:center;gap:2%">
+        <div style="font-family:Syne,sans-serif;font-size:16px;font-weight:800;color:#F59E0B;letter-spacing:.12em">📰 STABLECOIN TIMES</div>
+        <div style="width:1px;height:18px;background:#334155"></div>
+        <div style="font-family:JetBrains Mono,monospace;font-size:14px;color:#94A3B8">ÉDITION SPÉCIALE — MARS 2026</div>
+      </div>
+      <div style="font-family:Syne,sans-serif;font-size:16px;font-weight:800;color:white;letter-spacing:.06em">13 — ACTUALITÉS 2026</div>
+      <div style="font-family:JetBrains Mono,monospace;font-size:14px;color:#94A3B8">BREAKING NEWS</div>
+    </div>
+
+    <!-- Body: 3-column newspaper layout -->
+    <div style="position:absolute;top:14%;left:1.5%;right:1.5%;bottom:1%;display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.2%">
+
+      <!-- COLUMN 1 -->
+      <div style="display:flex;flex-direction:column;gap:1.2%">
+
+        <!-- Article 1 -->
+        <div style="background:#0A1628;border:1px solid #1E293B;border-radius:6px;padding:3% 3.5%;border-left:3px solid #10B981">
+          <div style="display:flex;align-items:center;gap:4%;margin-bottom:3%">
+            <span style="font-size:18px">1️⃣</span>
+            <div style="font-family:Syne,sans-serif;font-size:15px;font-weight:700;color:#10B981;line-height:1.65">EXPLOSION DE L'USAGE</div>
+          </div>
+          <div style="font-size:14px;color:#94A3B8;font-style:italic;margin-bottom:3%">USDC en forte croissance</div>
+          <div style="font-size:15px;color:#E2E8F0;line-height:1.6">
+            USDC atteint <strong style="color:#F59E0B">~79 Md$</strong> en circulation (mars 2026).<br>
+            Forte utilisation : paiements internationaux, marchés tokenisés, IA &amp; finance programmable.
+          </div>
+          <div style="margin-top:3%;background:#0D9488;border-radius:4px;padding:2% 3%">
+            <div style="font-size:14px;color:white;font-weight:600">➡️ Les stablecoins deviennent une infrastructure de paiement mondiale</div>
+          </div>
+        </div>
+
+        <!-- Article 2 -->
+        <div style="background:#0A1628;border:1px solid #1E293B;border-radius:6px;padding:3% 3.5%;border-left:3px solid #06B6D4;flex:1">
+          <div style="display:flex;align-items:center;gap:4%;margin-bottom:3%">
+            <span style="font-size:18px">2️⃣</span>
+            <div style="font-family:Syne,sans-serif;font-size:15px;font-weight:700;color:#06B6D4;line-height:1.65">ADOPTION INSTITUTIONNELLE</div>
+          </div>
+          <div style="font-size:14px;color:#94A3B8;font-style:italic;margin-bottom:3%">TradFi entre dans la danse</div>
+          <div style="font-size:15px;color:#E2E8F0;line-height:1.6">
+            <strong style="color:#F59E0B">Visa</strong> règle déjà en stablecoins (USDC). Banques américaines utilisent ces rails en production.<br><br>
+            <span style="color:#FCD34D">🔥 Nouveauté :</span> <strong style="color:white">Fidelity lance son propre stablecoin (FIDD)</strong>
+          </div>
+          <div style="margin-top:3%;background:#1E3A5F;border-radius:4px;padding:2% 3%">
+            <div style="font-size:14px;color:white;font-weight:600">➡️ Les stablecoins entrent dans la finance traditionnelle (TradFi)</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- COLUMN 2 -->
+      <div style="display:flex;flex-direction:column;gap:1.2%">
+
+        <!-- Headline banner -->
+        <div style="background:linear-gradient(135deg,#7F1D1D,#991B1B);border-radius:6px;padding:3% 3.5%;text-align:center">
+          <div style="font-family:Syne,sans-serif;font-size:16px;font-weight:800;color:white;line-height:1.655">⚡ GUERRE DES STABLECOINS</div>
+          <div style="font-size:14px;color:rgba(255,255,255,.7);margin-top:2%">Le marché américain devient un champ de bataille stratégique</div>
+        </div>
+
+        <!-- Article 3 -->
+        <div style="background:#0A1628;border:1px solid #1E293B;border-radius:6px;padding:3% 3.5%;border-left:3px solid #EF4444">
+          <div style="display:flex;align-items:center;gap:4%;margin-bottom:3%">
+            <span style="font-size:18px">3️⃣</span>
+            <div style="font-family:Syne,sans-serif;font-size:15px;font-weight:700;color:#EF4444;line-height:1.65">GUERRE US DES STABLECOINS</div>
+          </div>
+          <div style="font-size:15px;color:#E2E8F0;line-height:1.6;margin-bottom:2%">
+            <strong style="color:#F59E0B">GENIUS Act 2025</strong> : première loi US encadrant les stablecoins.<br>
+            Tether revient aux USA avec <strong style="color:white">USAT</strong>, un stablecoin conforme.
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:2%">
+            <div style="background:#1E3A5F;border-radius:4px;padding:2.5% 3%;text-align:center">
+              <div style="font-size:15px;color:#14B8A6;font-weight:700">USDC</div>
+              <div style="font-size:15px;color:#94A3B8">Circle</div>
+            </div>
+            <div style="background:#7F1D1D;border-radius:4px;padding:2.5% 3%;text-align:center">
+              <div style="font-size:15px;color:#FCA5A5;font-weight:700">USDT</div>
+              <div style="font-size:15px;color:#94A3B8">Tether</div>
+            </div>
+            <div style="background:#78350F;border-radius:4px;padding:2.5% 3%;text-align:center">
+              <div style="font-size:15px;color:#FCD34D;font-weight:700">FIDD</div>
+              <div style="font-size:15px;color:#94A3B8">Fidelity</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Article 4 -->
+        <div style="background:#0A1628;border:1px solid #1E293B;border-radius:6px;padding:3% 3.5%;border-left:3px solid #8B5CF6;flex:1">
+          <div style="display:flex;align-items:center;gap:4%;margin-bottom:3%">
+            <span style="font-size:18px">4️⃣</span>
+            <div style="font-family:Syne,sans-serif;font-size:15px;font-weight:700;color:#8B5CF6;line-height:1.65">RÉGULATION MONDIALE</div>
+          </div>
+          <div style="font-size:14px;color:#94A3B8;font-style:italic;margin-bottom:3%">2026 = tournant réglementaire global</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:2%">
+            <div style="font-size:14px;color:#E2E8F0;line-height:1.6">🇺🇸 <strong style="color:#F59E0B">GENIUS Act</strong><br>🇪🇺 <strong style="color:#14B8A6">MiCA</strong></div>
+            <div style="font-size:14px;color:#E2E8F0;line-height:1.6">🇦🇪 <strong style="color:white">UAE autorisé</strong><br>🇭🇰 <strong style="color:white">Licences 2026</strong></div>
+          </div>
+          <div style="margin-top:3%;background:#1E293B;border-radius:4px;padding:2% 3%">
+            <div style="font-size:14px;color:#8B5CF6;font-weight:600">➡️ Crypto expérimental → système financier régulé</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- COLUMN 3 -->
+      <div style="display:flex;flex-direction:column;gap:1.2%">
+
+        <!-- Article 5 -->
+        <div style="background:#0A1628;border:1px solid #1E293B;border-radius:6px;padding:3% 3.5%;border-left:3px solid #F59E0B">
+          <div style="display:flex;align-items:center;gap:4%;margin-bottom:3%">
+            <span style="font-size:18px">5️⃣</span>
+            <div style="font-family:Syne,sans-serif;font-size:15px;font-weight:700;color:#F59E0B;line-height:1.65">L'EUROPE RATTRAPE</div>
+          </div>
+          <div style="font-size:15px;color:#E2E8F0;line-height:1.6">
+            Domination dollar massive. Riposte européenne : projet <strong style="color:#F59E0B">Qivalis</strong> (BNP + grandes banques), lancement prévu <strong style="color:white">2026</strong>.
+          </div>
+          <div style="margin-top:3%;background:#065F46;border-radius:4px;padding:2% 3%">
+            <div style="font-size:14px;color:white;font-weight:600">➡️ Réduire la dépendance au dollar · Souveraineté €</div>
+          </div>
+        </div>
+
+        <!-- Article 6 -->
+        <div style="background:#0A1628;border:1px solid #1E293B;border-radius:6px;padding:3% 3.5%;border-left:3px solid #06B6D4">
+          <div style="display:flex;align-items:center;gap:4%;margin-bottom:3%">
+            <span style="font-size:18px">6️⃣</span>
+            <div style="font-family:Syne,sans-serif;font-size:15px;font-weight:700;color:#06B6D4;line-height:1.65">ENJEU GÉOPOLITIQUE</div>
+          </div>
+          <div style="font-size:15px;color:#E2E8F0;line-height:1.6;margin-bottom:2%">
+            Marché dominé par les stablecoins USD → extension mondiale du dollar via la blockchain.
+          </div>
+          <div style="display:flex;flex-direction:column;gap:2%">
+            <div style="background:#1E3A5F;border-radius:4px;padding:2% 3%;font-size:14px;color:#E2E8F0">🇺🇸 Domination financière renforcée</div>
+            <div style="background:#065F46;border-radius:4px;padding:2% 3%;font-size:14px;color:#E2E8F0">🇪🇺 Régulation + euro numérique</div>
+            <div style="background:#334155;border-radius:4px;padding:2% 3%;font-size:14px;color:#E2E8F0">🌍 UAE, Asie : adoption rapide</div>
+          </div>
+        </div>
+
+        <!-- Article 7 -->
+        <div style="background:#0A1628;border:1px solid #1E293B;border-radius:6px;padding:3% 3.5%;border-left:3px solid #10B981;flex:1">
+          <div style="display:flex;align-items:center;gap:4%;margin-bottom:3%">
+            <span style="font-size:18px">7️⃣</span>
+            <div style="font-family:Syne,sans-serif;font-size:15px;font-weight:700;color:#10B981;line-height:1.65">NOUVELLE INDUSTRIE</div>
+          </div>
+          <div style="font-size:14px;color:#94A3B8;font-style:italic;margin-bottom:3%">Ce qui change en 2026</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:2%;margin-bottom:2%">
+            <div style="background:#0D9488;border-radius:4px;padding:2.5% 3%;text-align:center;font-size:14px;color:white;line-height:1.6">💳 Infrastructure<br>de paiement</div>
+            <div style="background:#1E3A5F;border-radius:4px;padding:2.5% 3%;text-align:center;font-size:14px;color:white;line-height:1.6">🏦 Produit<br>bancaire</div>
+          </div>
+          <div style="background:#7F1D1D;border-radius:4px;padding:2% 3%;text-align:center;font-size:14px;color:white;font-weight:600">🌍 Outil géopolitique mondial</div>
+          <div style="margin-top:2%;font-size:15px;color:#94A3B8;line-height:1.65">Revenus : intérêts sur réserves + usage transactionnel</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="slide-wrapper" id="sw15">
+  <div class="slide" id="s11">
+    <div class="left-bar"></div>
+    <div class="gold-bottom"></div>
+    <div class="content">
+      <div class="concl-title">14 — CONCLUSION</div>
+      <div class="concl-sub">Les stablecoins : d'un outil crypto à une infrastructure financière mondiale</div>
+      <div class="concl-items">
+        <div class="concl-item" style="border-color:var(--teal)">📊 Un marché de 300 Md$ (×10 en 5 ans), dominé à +90% par le dollar — USDC atteint 79 Md$ en mars 2026, projeté à 3 700 Md$ d'ici 2030</div>
+        <div class="concl-item" style="border-color:var(--gold)">🏦 Les stablecoins deviennent une infrastructure bancaire réelle : règlement tokenisé, cash management, custody — Fidelity, Visa et les grandes banques les adoptent en production</div>
+        <div class="concl-item" style="border-color:var(--green)">🇫🇷 MiCA donne un avantage aux banques françaises : SG-FORGE (EURCV, 95% maturité), BNP via Qivalis, CACEIS premier CASP — mais le retard sur le dollar reste massif</div>
+        <div class="concl-item" style="border-color:var(--purple)">🇪🇺 La BCE riposte : euro numérique (2027-2029), EMT en euros prioritaires — face au risque de dollarisation numérique qui affaiblit la politique monétaire européenne</div>
+        <div class="concl-item" style="border-color:var(--red)">⚔️ Guerre des stablecoins : GENIUS Act aux USA, Qivalis en Europe, UAE et Hong Kong en Asie — 2026 marque le passage du crypto expérimental au système financier régulé mondial</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NAVIGATION -->
+<nav id="nav">
+  <button id="btn-prev" onclick="navigate(-1)" disabled>←</button>
+  <div class="dot-nav" id="dot-nav"></div>
+  <span id="slide-counter">1 / 15</span>
+  <button id="btn-next" onclick="navigate(1)">→</button>
+  <button onclick="toggleFullscreen()" title="Plein écran" style="margin-left:8px;background:#334155;font-size:13px">⛶</button>
+</nav>
+
+<script>
+  const TOTAL = 15;
+  let current = 1;
+
+  // Build dots
+  const dotNav = document.getElementById('dot-nav');
+  for (let i = 1; i <= TOTAL; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 1 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotNav.appendChild(d);
+  }
+
+  function goTo(n) {
+    document.getElementById('sw' + current).classList.remove('active');
+    document.querySelectorAll('.dot')[current - 1].classList.remove('active');
+    current = n;
+    document.getElementById('sw' + current).classList.add('active');
+    document.querySelectorAll('.dot')[current - 1].classList.add('active');
+    document.getElementById('slide-counter').textContent = current + ' / ' + TOTAL;
+    document.getElementById('btn-prev').disabled = current === 1;
+    document.getElementById('btn-next').disabled = current === TOTAL;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function navigate(dir) { goTo(Math.max(1, Math.min(TOTAL, current + dir))); }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') navigate(1);
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') navigate(-1);
+  });
+
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+    else document.exitFullscreen();
+  }
+</script>
+</body>
+</html>
